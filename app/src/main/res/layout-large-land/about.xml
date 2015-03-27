@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="10dp">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher_web"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="25dp"
+                android:layout_marginBottom="10dp"
+                android:text="SYMBI MESS 1.0"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:layout_marginBottom="10dp"
+                android:text="by Aliasgar Murtaza"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:elevation="15dp">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="DEVELOPER"
+                        android:textColor="@color/accent"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:id="@+id/logo_email"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/gmail"/>
+                        <TextView
+                            android:id="@+id/tv_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text="EMAIL"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+
+                            android:layout_toRightOf="@+id/logo_email"
+                            />
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:id="@+id/logo_github"
+                            android:layout_margin="10dp"
+                            android:layout_below="@id/logo_email"
+
+                            android:src="@drawable/github"/>
+                        <TextView
+                            android:id="@+id/tv_github"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="GITHUB"
+                            android:layout_marginTop="24dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_below="@id/logo_email"
+                            android:layout_toRightOf="@id/logo_github"
+
+                            />
+
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:id="@+id/logo_twitter"
+                            android:layout_margin="10dp"
+                            android:layout_below="@id/logo_github"
+
+                            android:src="@drawable/twitter"/>
+                        <TextView
+                            android:id="@+id/tv_twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="TWITTER"
+                            android:layout_marginTop="24dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_below="@id/logo_github"
+                            android:layout_toRightOf="@id/logo_twitter"
+
+                            />
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:id="@+id/logo_play"
+                            android:layout_margin="10dp"
+                            android:layout_below="@id/logo_twitter"
+
+                            android:src="@drawable/play"/>
+                        <TextView
+                            android:id="@+id/tv_play"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="PLAY STORE"
+                            android:layout_marginTop="24dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:layout_below="@id/logo_twitter"
+                            android:layout_toRightOf="@id/logo_play"
+
+                            />
+
+
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view_libraries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                card_view:elevation="15dp">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="OPEN SOURCE LIBRARIES"
+                        android:textColor="@color/accent"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:id="@+id/logo_lib1"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/github"/>
+                        <TextView
+                            android:id="@+id/tv_lib1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="FLOATINGACTIONBUTTON"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="bold"
+                            android:layout_alignTop="@+id/logo_lib1"
+                            android:layout_toRightOf="@+id/logo_lib1"
+                            android:layout_toEndOf="@+id/logo_lib1" />
+ <TextView
+                            android:id="@+id/tv_lib1link"
+                            android:layout_width="wrap_content"
+                            android:textSize="12dp"
+                             android:layout_marginTop="5dp"
+                            android:layout_height="wrap_content"
+     android:text="https://github.com/makovkastar/FloatingActionButton"
+                           android:textStyle="normal"
+
+     android:layout_below="@+id/tv_lib1"
+     android:layout_toRightOf="@+id/logo_lib1"
+     android:layout_toEndOf="@+id/logo_lib1" />
+
+
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        card_view:fab_colorPressed="@color/accent_material_dark"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+
+
+
+        android:src="@drawable/ic_action_important_green"
+
+
+        />
+
+</RelativeLayout>

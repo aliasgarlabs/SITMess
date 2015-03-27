@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="BREAKFAST Notification"
+        android:dependency=""
+
+        android:key="nn">
+
+        <SwitchPreference android:title="Breakfast "
+            android:defaultValue="true"
+            android:key="sbf" />
+
+
+        <ListPreference android:title="Breakfast Time"
+            android:key="prebf"
+            android:dependency="sbf"
+            android:defaultValue="8:30"
+            android:summary="8:30 AM"
+            android:entries="@array/prebf"
+            android:entryValues="@array/prebfvalue"
+
+           />
+</PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="LUNCH Notification"
+        android:dependency=""
+        android:key="nn">
+
+        <SwitchPreference android:title="Lunch "
+            android:defaultValue="true"
+            android:key="slunch" />
+
+        <ListPreference android:title="Lunch Time"
+            android:key="prelunch"
+            android:dependency="slunch"
+            android:defaultValue="12:30"
+            android:summary="12:30 PM"
+            android:entries="@array/prelunch"
+            android:entryValues="@array/prelunchvalue"
+
+            />
+</PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="SNACKS Notification"
+        android:dependency=""
+        android:key="nn">
+
+        <SwitchPreference android:title="Snacks "
+            android:defaultValue="true"
+            android:key="ssnack" />
+
+
+        <ListPreference android:title="Snacks Time"
+            android:key="presnack"
+            android:dependency="ssnack"
+            android:defaultValue="17:00"
+            android:summary="5:00 PM"
+            android:entries="@array/presnack"
+            android:entryValues="@array/presnackvalue"
+
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="DINNER Notification"
+        android:dependency=""
+        android:key="nn">
+
+
+
+        <SwitchPreference android:title="Dinner "
+            android:defaultValue="true"
+            android:key="sdinner" />
+
+        <ListPreference android:title="Dinner Time"
+            android:key="predinner"
+            android:dependency="sdinner"
+            android:defaultValue="20:30"
+            android:summary="8:30 PM"
+            android:entries="@array/predinner"
+            android:entryValues="@array/predinnervalue"
+
+            />
+
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

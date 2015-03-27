@@ -1,0 +1,429 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    tools:context=".MainActivity" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+
+
+
+
+            <android.support.v7.widget.CardView
+
+                android:id="@+id/card_view"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                card_view:elevation="15dp"  >
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+
+
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="145dp"
+                            android:layout_marginTop="-25dp"
+
+
+                            android:id="@+id/viewIn"></View>
+
+
+
+
+
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:id="@+id/tv_date"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="21-03-2015"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="setDateLocal"/>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+
+                        android:layout_below="@id/tv_date"
+                        android:id="@+id/view"
+                        android:background="@color/background_floating_material_dark"
+                        >
+
+                    </View>
+
+
+                    <com.melnykov.fab.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="54dp"
+                        card_view:fab_colorNormal="@color/white"
+                        card_view:fab_colorPressed="@color/accent_material_dark"
+                        android:layout_height="54dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignBottom="@id/viewIn"
+                        android:layout_marginRight="20dp"
+
+
+                        android:src="@drawable/ic_action_send_now_green"
+                        />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:id="@+id/breakfast_title"
+
+                            android:textColor="@color/accent"
+                            android:layout_marginLeft="20dp"
+                            android:layout_below="@id/fab"
+                            android:layout_height="wrap_content"
+
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                            android:text="BREAKFAST"
+                            />
+
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/tv_bf"
+                                android:hint="No Breakfast Added"
+                                android:layout_marginLeft="20dp"
+                                android:textColor="@color/black"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/breakfast_title"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                                />
+                            <Button
+                                android:id="@+id/clear_bf"   android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:clickable="true"
+                                android:background="@drawable/ic_action_discard_green"
+                                android:layout_gravity="right"
+                                android:layout_below="@+id/breakfast_title"
+                                android:layout_alignRight="@+id/view_bf"
+                                android:layout_alignEnd="@+id/view_bf" />
+
+
+
+
+
+
+
+
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_margin="10dp"
+                            android:id="@+id/view_bf"
+							android:layout_below="@id/tv_bf"
+                            android:background="@color/background_floating_material_dark"
+                            >
+
+                        </View>
+
+
+                            <Spinner
+                                android:id="@+id/et_breakfast"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_below="@id/view_bf"
+                             >  </Spinner>
+
+
+
+
+
+                        <Button
+                            android:id="@+id/add_bf"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/ic_action_new_green"
+                            android:layout_below="@id/view_bf"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+
+
+
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:id="@+id/lunch_title"
+        android:textColor="@color/accent"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/et_breakfast"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:text="LUNCH"
+        />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_lunch"
+            android:hint="No Lunch Added"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@id/et_breakfast"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            />
+        <Button
+            android:id="@+id/clear_lunch"   android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@id/tv_lunch"
+            android:layout_marginLeft="20dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_action_discard_green"
+            android:layout_gravity="right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+
+
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:id="@+id/view_lunch"
+        android:layout_below="@id/tv_lunch"
+        android:layout_margin="10dp"
+        android:background="@color/background_floating_material_dark"
+        >
+
+    </View>
+
+
+        <Spinner
+            android:id="@+id/et_lunch"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_lunch"
+            android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@+id/add_lunch"
+            android:layout_toStartOf="@+id/add_lunch">  </Spinner>
+
+
+
+
+                        <Button
+                            android:id="@+id/add_lunch"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/ic_action_new_green"
+                            android:layout_below="@id/view_lunch"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+
+
+
+
+
+
+
+
+                        <TextView
+        android:layout_width="fill_parent"
+        android:id="@+id/snack_title"
+android:layout_below="@id/et_lunch"
+        android:textColor="@color/accent"
+        android:layout_marginLeft="20dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:text="SNACK"
+        />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_snack"
+
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:hint="No Snacks Added"
+            android:layout_marginBottom="30dp"
+            android:layout_below="@id/snack_title"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            />
+        <Button
+            android:id="@+id/clear_snack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/snack_title"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/ic_action_discard_green"
+            android:layout_gravity="right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tv_snack"
+        android:id="@+id/view_snack"
+        android:background="@color/background_floating_material_dark"
+        >
+
+    </View>
+
+
+        <Spinner
+            android:id="@+id/et_snack"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_snack"
+            android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@+id/add_snack"
+            android:layout_toStartOf="@+id/add_snack">
+        </Spinner>
+
+
+        <Button
+            android:id="@+id/add_snack"   android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_action_new_green"
+            android:layout_below="@id/view_snack"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:id="@+id/dinner_title"
+        android:textColor="@color/accent"
+        android:layout_marginLeft="20dp"
+
+android:layout_below="@id/add_snack"
+
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:text="DINNER"
+        />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_dinner"
+            android:layout_marginLeft="20dp"
+            android:hint="No Dinner Added"
+            android:textColor="@color/black"
+            android:layout_below="@id/dinner_title"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            />
+        <Button
+            android:id="@+id/clear_dinner"   android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/ic_action_discard_green"
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:layout_below="@id/tv_dinner"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+
+
+
+
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/tv_dinner"
+        android:id="@+id/view_dinner"
+        android:layout_margin="10dp"
+        android:background="@color/background_floating_material_dark"
+        >
+
+    </View>
+        <Spinner
+            android:id="@+id/et_dinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_dinner"
+            android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@+id/add_dinner"
+            android:layout_toStartOf="@+id/add_dinner">  </Spinner>
+
+
+        <Button
+            android:id="@+id/add_dinner"   android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_action_new_green"
+            android:layout_margin="10dp"
+            android:layout_below="@id/clear_dinner"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>

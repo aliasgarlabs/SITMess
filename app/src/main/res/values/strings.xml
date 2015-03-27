@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Symbi Mess</string>
+    <string name="title_section1">TODAY</string>
+    <string name="title_section2">TOMORROW</string>
+    <string name="title_section3">SATURDAY</string>
+    <string name="title_section4">SUNDAY</string>
+    <string name="title_section5">MONDAY</string>
+    <string name="title_section6">TUESDAY</string>
+    <string name="title_section7">WEDNESDAY</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="prebf">
+        <item>7:30</item>
+        <item>8:00</item>
+        <item>8:30</item>
+        <item>9:00</item>
+        <item>9:30</item>
+    </string-array>
+
+    <string-array name="prebfvalue">
+        <item>7:30</item>
+        <item>8:00</item>
+        <item>8:30</item>
+        <item>9:00</item>
+        <item>9:30</item>
+    </string-array>
+
+    <string-array name="prelunch">
+        <item>12:00</item>
+        <item>12:30</item>
+        <item>13:00</item>
+        <item>13:30</item>
+        <item>14:00</item>
+    </string-array>
+    <string-array name="prelunchvalue">
+        <item>12:00</item>
+        <item>12:30</item>
+        <item>13:00</item>
+        <item>13:30</item>
+        <item>14:00</item>
+    </string-array>
+    <string-array name="presnack">
+        <item>16:30</item>
+        <item>17:00</item>
+        <item>17:30</item>
+    </string-array>
+    <string-array name="presnackvalue">
+        <item>16:30</item>
+        <item>17:00</item>
+        <item>17:30</item>
+    </string-array>
+    <string-array name="predinner">
+        <item>19:30</item>
+        <item>20:00</item>
+        <item>20:30</item>
+        <item>21:00</item>
+        <item>21:30</item>
+    </string-array>
+
+    <string-array name="predinnervalue">
+        <item>19:30</item>
+        <item>20:00</item>
+        <item>20:30</item>
+        <item>21:00</item>
+        <item>21:30</item>
+    </string-array>
+
+
+
+</resources>
