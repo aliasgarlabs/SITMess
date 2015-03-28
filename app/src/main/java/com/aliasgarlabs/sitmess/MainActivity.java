@@ -1,12 +1,5 @@
 package com.aliasgarlabs.sitmess;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.StringTokenizer;
-
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
@@ -22,28 +15,25 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,10 +41,16 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -340,95 +336,24 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        String[] projection = {
-//                FoodDB.KEY_ID,
-//                FoodDB.KEY_NAME,
-//                FoodDB.KEY_ADDRESS};
-//        CursorLoader cursorLoader = new CursorLoader(this,
-//                MyContentProvider.CONTENT_URI, projection, FoodDB.KEY_NAME+"=?", new String[] {"burgers"}, null);
-//
-//        return cursorLoader;
-//    }
-//    public void displayView()
-//    {
-//        // The desired columns to be bound
-//        String[] columns = new String[] {
-//                FoodDB.KEY_ID,
-//                FoodDB.KEY_NAME,
-//                FoodDB.KEY_ADDRESS
-//        };
-//
-//        //Ensures a loader is initialized and active.
-//      //TODO uncomment loader
-//      //  getLoaderManager().initLoader(0, null, this);
-//
-//    }
-//
-//    //
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-//        cursor.moveToFirst();
-//        StringBuilder res=new StringBuilder();
-//        while (!cursor.isAfterLast()) {
-//            res.append("\n"+cursor.getString(cursor.getColumnIndex(FoodDB.KEY_NAME))+ "-"+ cursor.getString(cursor.getColumnIndex(FoodDB.KEY_ADDRESS)));
-//            cursor.moveToNext();
-//        }
-//        Log.d("YAY", ""+res);
-//    }
-//
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//
-//    }
-
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-
-
-
-            return daysToSunday();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-             return getWeekDay(position);
-
-        }
-    }
-
-
-
-    public int daysToSunday()
-    {
+    public int daysToSunday() {
         Calendar cal = Calendar.getInstance();
         int today = cal.get(Calendar.DAY_OF_WEEK);
-        switch (today)
-        {
-            case 1: return 1;
-            case 2: return 7;
-            case 3: return 6;
-            case 4: return 5;
-            case 5: return 4;
-            case 6: return 3;
-            case 7: return 2;
+        switch (today) {
+            case 1:
+                return 1;
+            case 2:
+                return 7;
+            case 3:
+                return 6;
+            case 4:
+                return 5;
+            case 5:
+                return 4;
+            case 6:
+                return 3;
+            case 7:
+                return 2;
 
         }
         return 7;
@@ -439,16 +364,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         Calendar cal = Calendar.getInstance();
         int today = cal.get(Calendar.DAY_OF_WEEK);
 
-        switch(pos)
+        switch (pos)
         {
-            case 0: return  "Today";
+            case 0:
+                return "Today";
 
-            case 1: return  "Tomorrow";
+            case 1:
+                return "Tomorrow";
 
         }
 
 
-        switch ( cal.get(Calendar.DAY_OF_WEEK) + pos) {
+        switch (cal.get(Calendar.DAY_OF_WEEK) + pos) {
 
             case 2:
                 return "Monday";
@@ -471,20 +398,19 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         return "LoopHole";
     }
 
+    public static class PlaceholderFragment extends Fragment {
 
 
-    public static class PlaceholderFragment extends Fragment  {
-
-
+        private static final String ARG_SECTION_NUMBER = "section_number";
         ImageView food;
-        Boolean goingonline =true;
-        Calendar cal,c;
-        TextView tv_date, tv_day, tv_bf,tv_lunch,tv_snack,tv_dinner,tv_share, tv_rsvp, tv_like,tv_snack_title;
+        Boolean goingonline = true;
+        Calendar cal, c;
+        TextView tv_date, tv_day, tv_bf, tv_lunch, tv_snack, tv_dinner, tv_share, tv_rsvp, tv_like, tv_snack_title;
         List<MessMenu> messMenu;
         String date;
         Boolean showAlertNoInternet = false;
         ParseQuery<MessMenu> query;
-        int i=0;
+        int i = 0;
         int section;
         Boolean refresh = false;
         SharedPreferences value;
@@ -493,10 +419,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         AnimationSet animation;
         SwipeRefreshLayout swipeLayout;
         String stringMenuToday;
+        Typeface tcondi, tcondl, tdate, tday;
+        FloatingActionButton fab;
 
-        Typeface tcondi,tcondl;
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
+        public PlaceholderFragment() {
+        }
 
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
@@ -505,23 +432,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             fragment.setArguments(args);
 
 
-
             return fragment;
         }
-
-        public PlaceholderFragment() {
-        }
-
-        FloatingActionButton fab;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
 
-
-
         }
+
         public void attendance()
         {
 
@@ -529,28 +449,26 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             LayoutInflater li = LayoutInflater.from(getActivity());
             View promptsView = li.inflate(R.layout.new_item_attend, null);
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     getActivity());
 
             // set prompts.xml to alertdialog builder
             alertDialogBuilder.setView(promptsView);
 
-            final TextView notattend = (TextView) promptsView .findViewById(R.id.notattending);
-            final TextView attend = (TextView) promptsView .findViewById(R.id.attending);
-            final TextView tv_attend = (TextView) promptsView .findViewById(R.id.tv_attending);
+            final TextView notattend = (TextView) promptsView.findViewById(R.id.notattending);
+            final TextView attend = (TextView) promptsView.findViewById(R.id.attending);
+            final TextView tv_attend = (TextView) promptsView.findViewById(R.id.tv_attending);
             final TextView tv_notattend = (TextView) promptsView
                     .findViewById(R.id.tv_notattending);
 
-            String newAttend="";
-            String newNotAttend="";
+            String newAttend = "";
+            String newNotAttend = "";
 
-            for(MessMenu oneMenu: messMenu)
-            {
-                if(oneMenu.getMenuDate().equals(date))
-                {
+            for (MessMenu oneMenu : messMenu) {
+                if (oneMenu.getMenuDate().equals(date)) {
                     oneMenu.setAttendance(oneMenu.getAttendance());
-                    newAttend = "GOING: "+(677 - oneMenu.getAttendance())+" Students";
-                    newNotAttend = "NOT GOING: "+  oneMenu.getAttendance()+" Students";
+                    newAttend = "GOING: " + (677 - oneMenu.getAttendance()) + " Students";
+                    newNotAttend = "NOT GOING: " + oneMenu.getAttendance() + " Students";
                     oneMenu.saveEventually();
 
 
@@ -564,37 +482,35 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 @Override
                 public void onClick(View v) {
 
-                     String newAttend="";
-                       String newNotAttend="";
+                    String newAttend = "";
+                    String newNotAttend = "";
 
-                    date =  (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                    date = (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
-                    if(value.getBoolean("attend"+date, true))
-                    {
-                     val.putBoolean("attend"+date,false);
-                     val.commit();
-
-
-                        for(MessMenu oneMenu: messMenu)
-                    {
-                        if(oneMenu.getMenuDate().equals(date))
-                        {
-                            oneMenu.setAttendance(oneMenu.getAttendance() + 1);
-                             newAttend = "GOING: "+(677 - oneMenu.getAttendance())+" Students";
-                             newNotAttend = "NOT GOING: "+  oneMenu.getAttendance()+" Students";
-                            oneMenu.saveEventually();
+                    if (value.getBoolean("attend" + date, true)) {
+                        val.putBoolean("attend" + date, false);
+                        val.commit();
 
 
+                        for (MessMenu oneMenu : messMenu) {
+                            if (oneMenu.getMenuDate().equals(date)) {
+                                oneMenu.setAttendance(oneMenu.getAttendance() + 1);
+                                newAttend = "GOING: " + (677 - oneMenu.getAttendance()) + " Students";
+                                newNotAttend = "NOT GOING: " + oneMenu.getAttendance() + " Students";
+                                oneMenu.saveEventually();
+
+
+                            }
                         }
+
+                        tv_rsvp.setText("NOT GOING");
+                        tv_notattend.setText(newNotAttend);
+                        tv_attend.setText(newAttend);
+
                     }
 
-                    tv_rsvp.setText("NOT GOING");
-                    tv_notattend.setText(newNotAttend);
-                    tv_attend.setText(newAttend);
 
-                }}
-
-
+                }
 
             });
 
@@ -602,24 +518,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             notattend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String newAttend="";
-                    String newNotAttend="";
+                    String newAttend = "";
+                    String newNotAttend = "";
 
                     date = (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
-                    if(!value.getBoolean("attend"+date, true))
-                    {
-                        val.putBoolean("attend"+date,true);
+                    if (!value.getBoolean("attend" + date, true)) {
+                        val.putBoolean("attend" + date, true);
                         val.commit();
 
 
-                        for(MessMenu oneMenu: messMenu)
-                        {
-                            if(oneMenu.getMenuDate().equals(date))
-                            {
+                        for (MessMenu oneMenu : messMenu) {
+                            if (oneMenu.getMenuDate().equals(date)) {
                                 oneMenu.setAttendance(oneMenu.getAttendance() - 1);
-                                newAttend = "GOING: "+(677 - oneMenu.getAttendance())+" Students";
-                                newNotAttend = "NOT GOING: "+  oneMenu.getAttendance()+" Students";
+                                newAttend = "GOING: " + (677 - oneMenu.getAttendance()) + " Students";
+                                newNotAttend = "NOT GOING: " + oneMenu.getAttendance() + " Students";
                                 oneMenu.saveEventually();
 
 
@@ -632,10 +545,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         tv_attend.setText(newAttend);
 
 
-                    }}
+                    }
+                }
 
             });
-
 
 
             // create alert dialog
@@ -646,6 +559,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
         }
+
         @Override
         public void onResume() {
             super.onResume();
@@ -664,12 +578,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             section = args.getInt("section_number");
 
 
-
             tcondi = Typeface.createFromAsset(getActivity().getAssets(),
-           "fonts/RobotoCondensed-Italic.ttf");
+                    "fonts/RobotoCondensed-Italic.ttf");
 
             tcondl = Typeface.createFromAsset(getActivity().getAssets(),
                     "fonts/Roboto-Italic.ttf");
+            tdate = Typeface.createFromAsset(getActivity().getAssets(),
+                    "fonts/RobotoCondensed-Light.ttf");
+
+            tday = Typeface.createFromAsset(getActivity().getAssets(),
+                    "fonts/RobotoCondensed-LightItalic.ttf");
+
 
             swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
             swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -680,7 +599,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     get.execute();
 
                     new Handler().postDelayed(new Runnable() {
-                        @Override public void run() {
+                        @Override
+                        public void run() {
                             swipeLayout.setRefreshing(false);
                         }
                     }, 6000);
@@ -689,7 +609,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
             swipeLayout.setColorScheme(R.color.accent);
-
 
 
             tv_bf = (TextView) rootView.findViewById(R.id.breakfast_desc);
@@ -707,7 +626,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             fab.setColorPressed(getResources().getColor(R.color.accent_material_dark));
             food = (ImageView) rootView.findViewById(R.id.image);
 
-
+            tv_day.setTypeface(tdate);
+            tv_date.setTypeface(tday);
             tv_bf.setTypeface(tcondl);
             tv_dinner.setTypeface(tcondl);
             tv_snack.setTypeface(tcondl);
@@ -724,7 +644,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             animation.addAnimation(fadeIn);
 
 
-
             tv_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -732,16 +651,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                     Toast.makeText(getActivity(), "Please Wait...", Toast.LENGTH_LONG).show();
 
-                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                        sharingIntent.setType("text/plain");
-                        sharingIntent.putExtra(Intent.EXTRA_TEXT,"MESS MENU\n\nDATE: " + date + "\n\nBREAKFAST\n"+ tv_bf.getText()+"\n\nLUNCH\n" + tv_lunch.getText()+"\n\nDINNER\n" + tv_dinner.getText()+"\n\n-Shared by "+ getString(R.string.app_name) +"\n\nDownload: bit.ly/symbiapp");
-                        startActivity(Intent.createChooser(sharingIntent, "Share using"));
+                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, "MESS MENU\n\nDATE: " + date + "\n\nBREAKFAST\n" + tv_bf.getText() + "\n\nLUNCH\n" + tv_lunch.getText() + "\n\nDINNER\n" + tv_dinner.getText() + "\n\n-Shared by " + getString(R.string.app_name) + "\n\nDownload: bit.ly/symbiapp");
+                    startActivity(Intent.createChooser(sharingIntent, "Share using"));
 
                 }
             });
 
-           c = Calendar.getInstance();
-             value = getActivity()
+            c = Calendar.getInstance();
+            value = getActivity()
                     .getSharedPreferences("value", 0);
             val = value.edit();
 
@@ -754,71 +673,75 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             tv_rsvp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    attendance();
+                    if (value.getBoolean("synced", false) || isNetworkOnline()) {
+                        attendance();
+
+                    } else
+                        showAlert();
                 }
+
             });
 
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (fab.getColorNormal() == getResources().getColor(R.color.white)) {
-                        fab.setColorNormal(getResources().getColor(R.color.accent));
-                        fab.setImageResource(R.drawable.ic_action_favorite);
-                        Log.d("Status: ", "Liked it!");
-                        int like=0;
-
-                        date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                    if (value.getBoolean("synced", false) || isNetworkOnline()) {
 
 
-                            val.putBoolean(date,true);
-                             val.commit();
+                        if (fab.getColorNormal() == getResources().getColor(R.color.white)) {
+                            fab.setColorNormal(getResources().getColor(R.color.accent));
+                            fab.setImageResource(R.drawable.ic_action_favorite);
+                            Log.d("Status: ", "Liked it!");
+                            int like = 0;
+
+                            date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
 
-                        for(MessMenu oneMenu: messMenu)
-                        {
-                            if(oneMenu.getMenuDate().equals(date))
-                            {
-                                oneMenu.setLikes(oneMenu.getLikes()+1);
-                                like = oneMenu.getLikes();
-                                oneMenu.saveEventually();
+                            val.putBoolean(date, true);
+                            val.commit();
 
 
+                            for (MessMenu oneMenu : messMenu) {
+                                if (oneMenu.getMenuDate().equals(date)) {
+                                    oneMenu.setLikes(oneMenu.getLikes() + 1);
+                                    like = oneMenu.getLikes();
+                                    oneMenu.saveEventually();
+
+
+                                }
                             }
-                        }
 
-                        tv_like.setText(""+ like+" likes");
-
+                            tv_like.setText("" + like + " likes");
 
 
-                    }
-
-                    else {
-                        fab.setColorNormal(getResources().getColor(R.color.white));
-                        fab.setImageResource(R.drawable.ic_action_favorite_green);
-                        Log.d("Status: ", "Not Liked it!");
-                        int like = 0;
-                        date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                        } else {
+                            fab.setColorNormal(getResources().getColor(R.color.white));
+                            fab.setImageResource(R.drawable.ic_action_favorite_green);
+                            Log.d("Status: ", "Not Liked it!");
+                            int like = 0;
+                            date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
 
-                        val.putBoolean(date,false);
-                        val.commit();
+                            val.putBoolean(date, false);
+                            val.commit();
 
-                        for(MessMenu oneMenu: messMenu)
-                        {
-                            if(oneMenu.getMenuDate().equals(date))
-                            {
-                                oneMenu.setLikes(oneMenu.getLikes()-1);
-                                like = oneMenu.getLikes();
-                                oneMenu.saveEventually();
+                            for (MessMenu oneMenu : messMenu) {
+                                if (oneMenu.getMenuDate().equals(date)) {
+                                    oneMenu.setLikes(oneMenu.getLikes() - 1);
+                                    like = oneMenu.getLikes();
+                                    oneMenu.saveEventually();
 
 
+                                }
                             }
+
+                            tv_like.setText("" + like + " likes");
+
                         }
-
-                        tv_like.setText(""+ like+" likes");
-
-                    }
+                    } else
+                        showAlert();
                 }
+
             });
 
             cal = Calendar.getInstance();
@@ -827,113 +750,163 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             cal.set(Calendar.DAY_OF_WEEK, today + (section - 1));
             int day = cal.get(Calendar.DAY_OF_WEEK);
 
-            if (day==today)
+            if (day == today)
                 tv_day.setText("Today");
-           else if(section==2)
+            else if (section == 2)
                 tv_day.setText("Tomorrow");
             else
                 tv_day.setText(getWeekDay(day));
 
 
-           String monthString="";
+            String monthString = "";
 
-                switch (cal.get(Calendar.MONTH)+1) {
-                    case 1:
-                        monthString = "January";
-                        break;
-                    case 2:
-                        monthString = "Febuary";
-                        break;
-                    case 3:
-                        monthString = "March";
-                        break;
-                    case 4:
-                        monthString = "April";
-                        break;
-                    case 5:
-                        monthString = "May";
-                        break;
-                    case 6:
-                        monthString = "June";
-                        break;
-                    case 7:
-                        monthString = "July";
-                        break;
-                    case 8:
-                        monthString = "August";
-                        break;
-                    case 9:
-                        monthString = "September";
-                        break;
-                    case 10:
-                        monthString = "October";
-                        break;
-                    case 11:
-                        monthString = "November";
-                        break;
-                    case 12:
-                        monthString = "December";
-                        break;
+            switch (cal.get(Calendar.MONTH) + 1) {
+                case 1:
+                    monthString = "January";
+                    break;
+                case 2:
+                    monthString = "Febuary";
+                    break;
+                case 3:
+                    monthString = "March";
+                    break;
+                case 4:
+                    monthString = "April";
+                    break;
+                case 5:
+                    monthString = "May";
+                    break;
+                case 6:
+                    monthString = "June";
+                    break;
+                case 7:
+                    monthString = "July";
+                    break;
+                case 8:
+                    monthString = "August";
+                    break;
+                case 9:
+                    monthString = "September";
+                    break;
+                case 10:
+                    monthString = "October";
+                    break;
+                case 11:
+                    monthString = "November";
+                    break;
+                case 12:
+                    monthString = "December";
+                    break;
 
-                }
+            }
 
-            tv_date.setText(cal.get(Calendar.DAY_OF_MONTH)+" "+ monthString+" "+cal.get(Calendar.YEAR));
+            tv_date.setText(cal.get(Calendar.DAY_OF_MONTH) + " " + monthString + " " + cal.get(Calendar.YEAR));
             return rootView;
         }
 
-        public String[] getHighlightMenu(String menuToday)
-        {
+        public String[] getHighlightMenu(String menuToday) {
             ArrayList<String> arrayArgs = new ArrayList<String>();
-            menuToday+=" ";
-            Log.d("Menu Today", ""+ menuToday);
-            StringTokenizer st = new StringTokenizer(menuToday,"\n");
+            menuToday += " ";
+            Log.d("Menu Today", "" + menuToday);
+            StringTokenizer st = new StringTokenizer(menuToday, "\n");
 
-                    arrayArgs.add(st.nextToken());
-
+            arrayArgs.add(st.nextToken());
 
 
             Collections.shuffle(arrayArgs);
 
             String[] selectArgs = new String[arrayArgs.size()];
             selectArgs = arrayArgs.toArray(selectArgs);
-            for(String s : selectArgs)
+            for (String s : selectArgs)
                 System.out.println(s);
 
             return selectArgs;
         }
 
+        public void showAlert() {
 
-        public class getStuff extends AsyncTask<Void,Void,String>
-        {
+            new AlertDialog.Builder(getActivity())
+
+                    .setMessage("NO INTERNET CONNECTION\n\n\n" + "Please check your internet connection.")
+
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+
+                    .show();
+            showAlertNoInternet = false;
+
+        }
+
+        private void resetImage() {
+
+            food.setImageResource(R.drawable.pav_bhaji);
+        }
+
+        public boolean isNetworkOnline() {
+            boolean status = false;
+            try {
+
+                ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getNetworkInfo(0);
+                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    status = true;
+                } else {
+                    netInfo = cm.getNetworkInfo(1);
+                    if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED)
+                        status = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return status;
+
+        }
+
+        public String getWeekDay(int day) {
+
+
+            switch (day) {
+                case 1:
+                    return "Sunday";
+                case 2:
+                    return "Monday";
+                case 3:
+                    return "Tuesday";
+                case 4:
+                    return "Wednesday";
+                case 5:
+                    return "Thursday";
+                case 6:
+                    return "Friday";
+                case 7:
+                    return "Saturday";
+
+
+            }
+
+            return "Today";
+        }
+
+        public class getStuff extends AsyncTask<Void, Void, String> {
 
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
 
+
             }
 
             @Override
             protected void onPostExecute(String menuToday) {
                 super.onPostExecute(menuToday);
-
-                if(showAlertNoInternet)
-                {
-                    new AlertDialog.Builder(getActivity())
-
-                            .setMessage("NO INTERNET CONNECTION\n\n\n"+"Please connect to the internet to fetch the menu.")
-
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-                                }
-                            })
-
-                            .show();
-                    showAlertNoInternet =false;
+                if (showAlertNoInternet) {
+                    showAlert();
                 }
-              //resetImage();
-
 
 
             }
@@ -944,47 +917,53 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
 
-                if(!isNetworkOnline())
-                    goingonline=false;
+                if (!isNetworkOnline())
+                    goingonline = false;
 
-                if (value.getInt("nextUpdate", -1) > c.get(Calendar.WEEK_OF_YEAR)||!refresh) {
+                if (!refresh && value.getBoolean("synced", false)) {
                     //Dont go online
                     //Load local
-                    Log.d("Status in if ", ""+goingonline);
+                    Log.d("Status in if goining online", "" + goingonline);
+                    Log.d("Status in if nextUpdate", "" + value.getInt("nextUpdate", -1));
+                    Log.d("Status in if refresh ", "" + refresh);
+                    Log.d("Status in if bf ", "" + tv_bf.getText());
                     query.fromLocalDatastore();
                     query.whereEqualTo("date", date);
 
                 }
 
-                if(refresh||isNetworkOnline())
+                if (refresh || isNetworkOnline()) {
+
+
                     goingonline = true;
 
-
+                }
 
 
                 if (goingonline && !isNetworkOnline()) {
                     //Please connect to the internet
-                    Log.d("Status", ""+"Showing alert now" );
+                    Log.d("Status", "" + "Showing alert now");
                     showAlertNoInternet = true;
                     swipeLayout.setRefreshing(false);
 
 
                 }
+                if (goingonline && isNetworkOnline()) {
+                    //Please connect to the internet
+                    val.putBoolean("synced", true);
+                    val.commit();
 
-                {
+
+                }
+                if (value.getBoolean("synced", false) || isNetworkOnline()) {
                     refresh = false;
 
-                    if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-
-                        val.putInt("nextUpdate", (c.get(Calendar.WEEK_OF_YEAR) + 1));
-                        val.commit();
-                    }
 
                     query.findInBackground(new FindCallback<MessMenu>() {
                         @Override
                         public void done(List<MessMenu> task, ParseException error) {
                             ParseObject.pinAllInBackground(task);
-                             swipeLayout.setRefreshing(false);
+                            swipeLayout.setRefreshing(false);
                             if (task != null)
                                 for (final MessMenu mess : task) {
                                     messMenu = task;
@@ -1015,14 +994,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                         }
 
 
+                                        stringMenuToday = mess.getDinner();
 
-
-
-
-                                      stringMenuToday = mess.getDinner();
-
-                                        final String []selectArgs=    getHighlightMenu(stringMenuToday);
-                                        Log.d("String Select Arg ", ""+selectArgs[0]);
+                                        final String[] selectArgs = getHighlightMenu(stringMenuToday);
+                                        Log.d("String Select Arg ", "" + selectArgs[0]);
                                         getLoaderManager().restartLoader(0, null, new android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>() {
                                             @Override
                                             public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -1030,8 +1005,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                                         FoodDB.KEY_ID,
                                                         FoodDB.KEY_NAME,
                                                         FoodDB.KEY_ADDRESS};
-                                                android.support.v4.content.CursorLoader cursorLoader = new   android.support.v4.content.CursorLoader(getActivity(),
-                                                        MyContentProvider.CONTENT_URI, projection, FoodDB.KEY_NAME+"=? ", selectArgs, null);
+                                                android.support.v4.content.CursorLoader cursorLoader = new android.support.v4.content.CursorLoader(getActivity(),
+                                                        MyContentProvider.CONTENT_URI, projection, FoodDB.KEY_NAME + "=? ", selectArgs, null);
 
                                                 return cursorLoader;
                                             }
@@ -1039,7 +1014,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                             @Override
                                             public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor cursor) {
                                                 cursor.moveToFirst();
-                                                StringBuilder res=new StringBuilder();
+                                                StringBuilder res = new StringBuilder();
                                                 while (!cursor.isAfterLast()) {
                                                     res.append(cursor.getString(cursor.getColumnIndex(FoodDB.KEY_ADDRESS)));
                                                     cursor.moveToNext();
@@ -1051,8 +1026,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                                 food.setImageResource(resId);
 
 
-                                                if (food.getDrawable() == null)
-                                                {
+                                                if (food.getDrawable() == null) {
 
                                                     if (mess.getDinner().toLowerCase().contains("biryani"))
                                                         food.setImageResource(R.drawable.biryani);
@@ -1109,71 +1083,38 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         }
                     });
                 }
-                Log.d("String Menu ", ""+stringMenuToday);
-                    return stringMenuToday;
-                }
-
-
-        }
-
-
-
-        private void resetImage() {
-
-            food.setImageResource(R.drawable.pav_bhaji);
-        }
-
-
-
-        public boolean isNetworkOnline() {
-            boolean status=false;
-            try{
-
-                ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getNetworkInfo(0);
-                if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
-                    status= true;
-                }else {
-                    netInfo = cm.getNetworkInfo(1);
-                    if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
-                        status= true;
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-                return false;
-            }
-            return status;
-
-        }
-
-
-        public String getWeekDay(int day) {
-
-
-            switch (day) {
-                case 1:
-                    return "Sunday";
-                case 2:
-                    return "Monday";
-                case 3:
-                    return "Tuesday";
-                case 4:
-                    return "Wednesday";
-                case 5:
-                    return "Thursday";
-                case 6:
-                    return "Friday";
-                case 7:
-                    return "Saturday";
-
-
-
-
-
-
+                Log.d("String Menu ", "" + stringMenuToday);
+                return stringMenuToday;
             }
 
-            return "Today";
+
+        }
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+
+
+            return daysToSunday();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Locale l = Locale.getDefault();
+            return getWeekDay(position);
+
         }
     }
 

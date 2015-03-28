@@ -17,7 +17,7 @@ import com.melnykov.fab.FloatingActionButton;
 /**
  * Created by Aliasgar Murtaza on 27-Mar-15.
  */
-public class About extends ActionBarActivity implements View.OnClickListener{
+public class About extends ActionBarActivity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,12 @@ public class About extends ActionBarActivity implements View.OnClickListener{
         TextView fab_github = (TextView) findViewById(R.id.tv_lib1link);
         TextView fab_github_title = (TextView) findViewById(R.id.tv_lib1);
         TextView playstore = (TextView) findViewById(R.id.tv_play);
-
+        TextView about = (TextView) findViewById(R.id.aboutVersion);
+        try {
+            about.setText("SYMBI MESS " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
         ImageView iv_email = (ImageView) findViewById(R.id.logo_email);
@@ -37,9 +42,6 @@ public class About extends ActionBarActivity implements View.OnClickListener{
         ImageView iv_twitter = (ImageView) findViewById(R.id.logo_twitter);
         ImageView iv_play = (ImageView) findViewById(R.id.logo_play);
         ImageView iv_github_fab = (ImageView) findViewById(R.id.logo_lib1);
-
-
-
 
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -79,14 +81,14 @@ public class About extends ActionBarActivity implements View.OnClickListener{
                 finish();
                 break;
 
-            case R.id.share :
+            case R.id.share:
 
                 Toast.makeText(this, "Please Wait...", Toast.LENGTH_LONG).show();
 
 
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT,"Tired of wondering what's in the mess and make bad guesses every time? Now you can have Mess Menu right in your pocket. \n\nBrowse through menu, give meal reviews, and much more. \n\n\nDownload the Symbi Mess App "+"\n\nbit.ly/symbimessapp");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, "Tired of wondering what's in the mess and make bad guesses every time? Now you can have Mess Menu right in your pocket. \n\nBrowse through menu, give meal reviews, and much more. \n\n\nDownload the Symbi Mess App " + "\n\nbit.ly/symbimessapp");
                 startActivity(Intent.createChooser(sharingIntent, "Share using"));
                 break;
 
@@ -96,8 +98,7 @@ public class About extends ActionBarActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch(v.getId())
-        {
+        switch (v.getId()) {
             case R.id.tv_email:
                 try {
                     email();
@@ -159,8 +160,8 @@ public class About extends ActionBarActivity implements View.OnClickListener{
         sendIntent.setType("plain/text");
         sendIntent.setData(Uri.parse("aliasgarlabs@gmail.com"));
         sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "aliasgarlabs@gmail.com" });
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "SIT Mess App "+ getPackageManager().getPackageInfo(this.getPackageName(),0).versionCode);
+        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"aliasgarlabs@gmail.com"});
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "SIT Mess App " + getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode);
 
         startActivity(sendIntent);
     }

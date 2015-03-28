@@ -21,4 +21,17 @@
 
     </style>
 
+    <style name="ForecastTheme" parent="Theme.MyTheme">
+        <item name="actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>
+    </style>
+
+    <style name="ActionBar.Solid.Sunshine" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="background">@color/primary</item>
+    </style>
+
+    <style name="ActionBar.Solid.Sunshine.NoTitle" parent="ActionBar.Solid.Sunshine">
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="logo">@drawable/ic_logo</item>
+    </style>
+
 </resources>
