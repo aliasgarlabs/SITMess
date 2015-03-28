@@ -572,6 +572,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             query = ParseQuery.getQuery(MessMenu.class);
+
             setHasOptionsMenu(true);
 
             Bundle args = getArguments();
@@ -840,10 +841,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         }
 
-        private void resetImage() {
-
-            food.setImageResource(R.drawable.pav_bhaji);
-        }
 
         public boolean isNetworkOnline() {
             boolean status = false;
@@ -906,6 +903,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 super.onPostExecute(menuToday);
                 if (showAlertNoInternet) {
                     showAlert();
+
                 }
 
 
@@ -915,56 +913,47 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             protected String doInBackground(Void... params) {
 
                 date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                ParseQuery<MessMenu> query = ParseQuery.getQuery(MessMenu.class);
+                Boolean goingOnline = false;
+                Log.d("Validation", "" + value.getBoolean("synced", false) + " " + isNetworkOnline() + " " + refresh);
 
-
-                if (!isNetworkOnline())
-                    goingonline = false;
-
-                if (!refresh && value.getBoolean("synced", false)) {
-                    //Dont go online
-                    //Load local
-                    Log.d("Status in if goining online", "" + goingonline);
-                    Log.d("Status in if nextUpdate", "" + value.getInt("nextUpdate", -1));
-                    Log.d("Status in if refresh ", "" + refresh);
-                    Log.d("Status in if bf ", "" + tv_bf.getText());
-                    query.fromLocalDatastore();
+                if (!((value.getBoolean("synced", false) && isNetworkOnline()) || refresh)) {
+                    Log.d("Going Local", "" + true);
                     query.whereEqualTo("date", date);
+                    query.fromLocalDatastore();
+
+                } else {
+                    Log.d("Going Local", "" + false);
+                    goingOnline = true;
 
                 }
 
-                if (refresh || isNetworkOnline()) {
+                Log.d("Getting Before Parse", "" + true);
 
-
-                    goingonline = true;
-
-                }
-
-
-                if (goingonline && !isNetworkOnline()) {
-                    //Please connect to the internet
-                    Log.d("Status", "" + "Showing alert now");
+                if (!isNetworkOnline() && goingOnline) {
+                    if (refresh) {
                     showAlertNoInternet = true;
                     swipeLayout.setRefreshing(false);
+                        refresh = false;
+                    }
 
 
+                    if ((value.getBoolean("synced", false))) {
+                        query.whereEqualTo("date", date);
+                        query.fromLocalDatastore();
+                    }
                 }
-                if (goingonline && isNetworkOnline()) {
-                    //Please connect to the internet
-                    val.putBoolean("synced", true);
-                    val.commit();
+
+                query.findInBackground(new FindCallback<MessMenu>() {
+                    @Override
+                    public void done(List<MessMenu> task, ParseException error) {
+                        ParseObject.pinAllInBackground(task);
 
 
-                }
-                if (value.getBoolean("synced", false) || isNetworkOnline()) {
-                    refresh = false;
 
-
-                    query.findInBackground(new FindCallback<MessMenu>() {
-                        @Override
-                        public void done(List<MessMenu> task, ParseException error) {
-                            ParseObject.pinAllInBackground(task);
                             swipeLayout.setRefreshing(false);
-                            if (task != null)
+
+                        if (task != null)
                                 for (final MessMenu mess : task) {
                                     messMenu = task;
                                     Log.d("size: ", "" + task.size());
@@ -1082,7 +1071,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                 }
                         }
                     });
-                }
+
                 Log.d("String Menu ", "" + stringMenuToday);
                 return stringMenuToday;
             }

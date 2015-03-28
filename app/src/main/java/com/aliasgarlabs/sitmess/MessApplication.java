@@ -2,10 +2,7 @@ package com.aliasgarlabs.sitmess;
 
 import android.app.Application;
 
-
 import com.parse.Parse;
-
-import com.parse.ParseAnalytics;
 import com.parse.ParseObject;
 
 
@@ -26,10 +23,7 @@ public class MessApplication extends Application {
 
             // enable the Local Datastore
             Parse.enableLocalDatastore(getApplicationContext());
-                 Parse.initialize(this, "DIqz0Nr67JGm5eJGP9X1AnqcMA5nt7OSCKp2wnjz", "lhPLBRI3a6Psle3yWKhLE9WKzU8gBa64KudpSP4y");
-
-
-
+            Parse.initialize(this, "DIqz0Nr67JGm5eJGP9X1AnqcMA5nt7OSCKp2wnjz", "lhPLBRI3a6Psle3yWKhLE9WKzU8gBa64KudpSP4y");
 
 
 
