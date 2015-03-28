@@ -1,0 +1,20 @@
+Menu for the meal in the mess is always a reason of curiosity to students. 
+It makes them choose whether to have meal in the mess or go somewhere else 
+if that day's menu is not of their taste. 
+
+
+With Symbi Mess App:
+-User can browse upto Sunday's menu of a week
+-Like the menu
+-RSVP (Lot's of food is wasted when a lot of students go outside for meals. 
+Especially during weekends. This will help the cooking staff to only prepare food accordingly.)
+
+-Share the day's menu
+-Get notified when the mess starts serving a meal
+-Shows current meal menu in the notification.]
+
+
+Future updates:
+-Add meal reviews
+-Add Voting polls for menu decision
+-Meal Buddy (Instant Messaging feature which allows students to find a company for a meal anonymously)
