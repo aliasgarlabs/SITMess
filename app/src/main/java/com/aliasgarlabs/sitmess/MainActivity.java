@@ -917,7 +917,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 Boolean goingOnline = false;
                 Log.d("Validation", "" + value.getBoolean("synced", false) + " " + isNetworkOnline() + " " + refresh);
 
-                if (!((value.getBoolean("synced", false) && isNetworkOnline()) || refresh)) {
+                if (!((value.getBoolean("synced", false) && isNetworkOnline() || refresh)) && (value.getBoolean("synced", false))) {
                     Log.d("Going Local", "" + true);
                     query.whereEqualTo("date", date);
                     query.fromLocalDatastore();
@@ -949,7 +949,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     public void done(List<MessMenu> task, ParseException error) {
                         ParseObject.pinAllInBackground(task);
 
-
+                        val.putBoolean("synced", true);
+                        val.commit();
 
                             swipeLayout.setRefreshing(false);
 

@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aliasgarlabs.sitmess" >
+    package="com.aliasgarlabs.sitmess">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".MessApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.MyTheme" >
+        android:theme="@style/Theme.MyTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/ForecastTheme">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".MenuSetter"
+        <activity
+            android:name=".MenuSetter"
             android:label="Submit Menu"
 
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
 
-        <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
 
         <activity
             android:name="com.aliasgarlabs.sitmess.Settings"
             android:label="Settings"
-            android:parentActivityName="com.aliasgarlabs.sitmess.MainActivity"
-            >
-        </activity>
+            android:parentActivityName="com.aliasgarlabs.sitmess.MainActivity"></activity>
 
         <activity
             android:name="com.aliasgarlabs.sitmess.About"
-            android:label="Settings"
-            android:parentActivityName="com.aliasgarlabs.sitmess.MainActivity"
-           >
-        </activity>
-        <receiver android:name="com.aliasgarlabs.sitmess.AlarmReceiver"/>
-        <service android:name="com.aliasgarlabs.sitmess.AlarmService"/>
+            android:label="About"
+            android:parentActivityName="com.aliasgarlabs.sitmess.MainActivity"></activity>
 
-        <receiver android:name="com.aliasgarlabs.sitmess.BootReceiver" >
+        <receiver android:name="com.aliasgarlabs.sitmess.AlarmReceiver" />
+        <service android:name="com.aliasgarlabs.sitmess.AlarmService" />
+
+        <receiver android:name="com.aliasgarlabs.sitmess.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 
