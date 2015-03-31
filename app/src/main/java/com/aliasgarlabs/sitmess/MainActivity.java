@@ -484,8 +484,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                     String newAttend = "";
                     String newNotAttend = "";
+                    c = Calendar.getInstance();
+                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
 
-                    date = (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+
+                    date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
                     if (value.getBoolean("attend" + date, true)) {
                         val.putBoolean("attend" + date, false);
@@ -520,9 +523,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 public void onClick(View v) {
                     String newAttend = "";
                     String newNotAttend = "";
+                    c = Calendar.getInstance();
+                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
 
-                    date = (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
+                    date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
                     if (!value.getBoolean("attend" + date, true)) {
                         val.putBoolean("attend" + date, true);
                         val.commit();
@@ -694,8 +699,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             fab.setImageResource(R.drawable.ic_action_favorite);
                             Log.d("Status: ", "Liked it!");
                             int like = 0;
+                            c = Calendar.getInstance();
+                            c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
 
-                            date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+
+                            date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
 
                             val.putBoolean(date, true);
@@ -720,9 +728,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             fab.setImageResource(R.drawable.ic_action_favorite_green);
                             Log.d("Status: ", "Not Liked it!");
                             int like = 0;
-                            date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                            c = Calendar.getInstance();
+                            c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + (section - 1));
 
-
+                            date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
                             val.putBoolean(date, false);
                             val.commit();
 
@@ -911,8 +920,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             @Override
             protected String doInBackground(Void... params) {
+                c = Calendar.getInstance();
+                c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
 
-                date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+
+                date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
                 ParseQuery<MessMenu> query = ParseQuery.getQuery(MessMenu.class);
                 Boolean goingOnline = false;
                 Log.d("Validation", "" + value.getBoolean("synced", false) + " " + isNetworkOnline() + " " + refresh);
@@ -958,9 +970,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                 for (final MessMenu mess : task) {
                                     messMenu = task;
                                     Log.d("size: ", "" + task.size());
+                                    Log.d("date back section", "" + section);
+                                    c = Calendar.getInstance();
+                                    date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH)) + " - " + c.get(Calendar.YEAR);
+                                    Log.d("date back log 1: " + mess.getMenuDate(), date);
+                                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
+                                    date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH)) + " - " + c.get(Calendar.YEAR);
+                                    Log.d("date back log 2: " + mess.getMenuDate(), date);
 
-                                    date = "" + (c.get(Calendar.DAY_OF_MONTH) + section - 1) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
-                                    Log.d("date: " + mess.getMenuDate(), date);
+                                    date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                                    Log.d("date back log 3: " + mess.getMenuDate(), date);
 
                                     if (mess.getMenuDate().equals(date)) {
 
@@ -1025,6 +1044,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                                     else if (mess.getDinner().toLowerCase().contains("fried rice"))
                                                         food.setImageResource(R.drawable.friedrice);
                                                     else if (mess.getDinner().toLowerCase().contains("hakka"))
+                                                        food.setImageResource(R.drawable.hakka);
+                                                    else if (mess.getDinner().toLowerCase().contains("noodles"))
                                                         food.setImageResource(R.drawable.hakka);
                                                     else if (mess.getDinner().toLowerCase().contains("mendu"))
                                                         food.setImageResource(R.drawable.meduwada);

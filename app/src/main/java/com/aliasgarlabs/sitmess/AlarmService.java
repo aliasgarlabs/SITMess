@@ -2,43 +2,28 @@ package com.aliasgarlabs.sitmess;
 
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.TimeZone;
 
 /**
 * Created by Aliasgar Murtaza on 1/7/2015.
 */
 public class AlarmService extends Service {
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-
-
     Calendar c = null;
     String nextMeal;
     int times[]= new int[4];
@@ -46,6 +31,10 @@ public class AlarmService extends Service {
     SharedPreferences value;
     SharedPreferences.Editor val;
 
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -242,8 +231,12 @@ public class AlarmService extends Service {
                             isWrongSnack=1;
                             Log.d("You're in a wrong snack","sorry");
                         }
+                        c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + extraDay);
 
-                        String date = "" + (c.get(Calendar.DAY_OF_MONTH)+ extraDay) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+
+                        String date;
+
+                        date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
                         Log.d("date: " + mess.getMenuDate(), date);
 
                         if (mess.getMenuDate().equals(date)) {
