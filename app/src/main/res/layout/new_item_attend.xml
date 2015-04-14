@@ -6,11 +6,12 @@
     android:layout_height="fill_parent"
     android:layout_margin="10dp"
     android:background="#00000000"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical">
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -22,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 card_view:elevation="15dp">
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -29,63 +31,65 @@
                     android:orientation="vertical">
 
                     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ATTENDANCE"
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ATTENDANCE"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/accent" />
 
 
                     <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
+                        android:id="@+id/description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="Every day, tons of food gets wasted in the mess because of wrong anticipation of number of students attending dinner. \n\nA simple RSVP if you're not going to have dinner in the mess for a particular day would help in lesser food wastage. Please RSVP before 5pm for dinner."
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/background_material_dark" />
 
 
                     <TextView
-        android:id="@+id/tv_attending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="ATTENDING: 677 Students"
+                        android:id="@+id/tv_attending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:hint="loading..."
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/primary_dark" />
 
                     <TextView
-        android:id="@+id/tv_notattending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="NOT ATTENDING: 0 Students "
+                        android:id="@+id/tv_notattending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+
+
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/primary_dark" />
 
                     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/notattending"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="GOING"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/accent" />
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
 
                         <TextView
-            android:id="@+id/attending"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_toLeftOf="@id/notattending"
-            android:text="NOT GOING"
+                            android:id="@+id/notattending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="20dp"
+                            android:text="GOING"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/accent" />
+
+                        <TextView
+                            android:id="@+id/attending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_toLeftOf="@id/notattending"
+                            android:text="NOT GOING"
 
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/accent" />

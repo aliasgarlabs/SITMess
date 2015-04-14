@@ -358,8 +358,8 @@ public class AlarmService extends Service {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
 
-       mBuilder.setAutoCancel(true).setContentIntent(pendingIntent).setLights(50,50,50).setVibrate(vibrate).setSmallIcon(R.drawable.ic_launcher);
-        mBuilder.setContentTitle(meal[0]).setContentText(meal[1]);
+        mBuilder.setAutoCancel(true).setContentIntent(pendingIntent).setLights(50, 50, 50).setVibrate(vibrate).setSmallIcon(R.drawable.ic_stat_name);
+        mBuilder.setContentTitle(meal[0]).setContentText(meal[1]).setColor(getResources().getColor(R.color.primary));
 
 
         if(!menu.equals(""))
@@ -372,9 +372,6 @@ public class AlarmService extends Service {
             notificationManager.notify(1, mBuilder.build());
             getMenu(mealId);
         }
-
-
-
 
 
     }

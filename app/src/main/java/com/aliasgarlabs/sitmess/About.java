@@ -2,6 +2,7 @@ package com.aliasgarlabs.sitmess;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +31,20 @@ public class About extends ActionBarActivity implements View.OnClickListener {
         TextView fab_github_title = (TextView) findViewById(R.id.tv_lib1);
         TextView playstore = (TextView) findViewById(R.id.tv_play);
         TextView about = (TextView) findViewById(R.id.aboutVersion);
+        TextView dev = (TextView) findViewById(R.id.developer);
+
+        Typeface tdate, tday;
+
+
+        tdate = Typeface.createFromAsset(getAssets(),
+                "fonts/RobotoCondensed-Light.ttf");
+
+        tday = Typeface.createFromAsset(getAssets(),
+                "fonts/RobotoCondensed-LightItalic.ttf");
+
+        dev.setTypeface(tdate);
+        about.setTypeface(tday);
+
         try {
             about.setText("SYMBI MESS " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {

@@ -2,17 +2,16 @@ package com.aliasgarlabs.sitmess;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -38,9 +37,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
@@ -97,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mSectionsPagerAdapter.notifyDataSetChanged();
-        Intent intent = new Intent(this,AlarmService.class);
+        Intent intent = new Intent(this, AlarmService.class);
         startService(intent);
 
 
@@ -117,24 +113,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
 
-            Log.d("New lunch",
-                    "true");
+        Log.d("New lunch",
+                "true");
 
 
+        value = getSharedPreferences("value", 0);
+        val = value.edit();
 
+        //Check for 1st launch
+        if (value.getBoolean("firstRun", true)) {
 
-            value = getSharedPreferences("value",0);
-            val = value.edit();
+            populateFoodDB();
 
-            //Check for 1st launch
-            if(value.getBoolean("firstRun", true))
-            {
-
-                populateFoodDB();
-
-                val.putBoolean("firstRun", false);
-                val.commit();
-            }
+            val.putBoolean("firstRun", false);
+            val.commit();
+        }
 
 
     }
@@ -156,7 +149,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         if (id == R.id.action_settings) {
 
-            Intent intent = new Intent(this,Settings.class);
+            Intent intent = new Intent(this, Settings.class);
             startActivity(intent);
 
             return true;
@@ -164,144 +157,146 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         if (id == R.id.about) {
 
-            Intent intent = new Intent(this,About.class);
+            Intent intent = new Intent(this, About.class);
             startActivity(intent);
 
             return true;
         }
 
 
-
         return super.onOptionsItemSelected(item);
     }
 
 
-
-
     private void populateFoodDB() {
 
-            ContentValues values[] = new ContentValues[53];
-            int i;
-            for(i=0;i<53;i++)
-            {
-               values[i] = new ContentValues();
+        ContentValues values[] = new ContentValues[53];
+        int i;
+        for (i = 0; i < 53; i++) {
+            values[i] = new ContentValues();
 
-            }
+        }
 
-            values[0].put(FoodDB.KEY_NAME, "Paneer Kofta");
-            values[1].put(FoodDB.KEY_NAME, "Paneer Tikka Masala");
-            values[2].put(FoodDB.KEY_NAME, "Paneer Adraki");
-            values[3].put(FoodDB.KEY_NAME, "Paneer Toofani");
-            values[4].put(FoodDB.KEY_NAME, "Paneer Banjara");
-            values[5].put(FoodDB.KEY_NAME, "Palak Paneer");
-            values[6].put(FoodDB.KEY_NAME, "Paneer Masala");
-            values[7].put(FoodDB.KEY_NAME, "Paneer Butter Masala");
-            values[8].put(FoodDB.KEY_NAME, "Paneer Mutter Malai");
-            values[9].put(FoodDB.KEY_NAME, "Paneer Aflatun");
-            values[10].put(FoodDB.KEY_NAME, "Kadai Paneer");
-            values[11].put(FoodDB.KEY_NAME, "Paneer Bhurji");
-            values[12].put(FoodDB.KEY_NAME, "Mutter Paneer");
-            values[13].put(FoodDB.KEY_NAME, "Chicken Adraki");
-            values[14].put(FoodDB.KEY_NAME, "Chicken Hariyali");
-            values[15].put(FoodDB.KEY_NAME, "Butter Chicken");
-            values[16].put(FoodDB.KEY_NAME, "Butter Chicken Boneless");
-            values[17].put(FoodDB.KEY_NAME, "Kadai Chicken");
-            values[18].put(FoodDB.KEY_NAME, "Tandoori Chicken");
-            values[19].put(FoodDB.KEY_NAME, "Chicken Hyderabadi");
-            values[20].put(FoodDB.KEY_NAME, "Chicken Aflatoon");
-            values[21].put(FoodDB.KEY_NAME, "Chicken Handi");
-            values[22].put(FoodDB.KEY_NAME, "Veg Kolhapuri");
-            values[23].put(FoodDB.KEY_NAME, "Veg Kofta");
-            values[24].put(FoodDB.KEY_NAME, "Veg 65");
-            values[25].put(FoodDB.KEY_NAME, "Mix Veg Paratha");
-            values[26].put(FoodDB.KEY_NAME, "Aalu Paratha");
-            values[27].put(FoodDB.KEY_NAME, "Stuffed Tomato");
-            values[28].put(FoodDB.KEY_NAME, "Stuffed Capsicum");
-            values[29].put(FoodDB.KEY_NAME, "Kashmiri Dum Aalu");
-            values[30].put(FoodDB.KEY_NAME, "Bengali Dum Aalu");
-            values[31].put(FoodDB.KEY_NAME, "Egg Cury");
-            values[38].put(FoodDB.KEY_NAME, "Red Sauce Pasta");
-            values[39].put(FoodDB.KEY_NAME, "Hakka Noodles");
-            values[40].put(FoodDB.KEY_NAME, "Schezwan Noodles");
-            values[41].put(FoodDB.KEY_NAME, "Pav Bhaji");
-            values[42].put(FoodDB.KEY_NAME, "Papdi Chaat");
-            values[43].put(FoodDB.KEY_NAME, "Dahi Chaat");
-            values[44].put(FoodDB.KEY_NAME, "Chole Bhature");
-            values[45].put(FoodDB.KEY_NAME, "Chole Puri");
-            values[46].put(FoodDB.KEY_NAME, "Chhole");
-            values[47].put(FoodDB.KEY_NAME, "Veg Manchurian");
-            values[48].put(FoodDB.KEY_NAME, "Veg Biryani");
-            values[49].put(FoodDB.KEY_NAME, "Hyderabadi Biryani");
-            values[50].put(FoodDB.KEY_NAME, "Chicken Biryani");
-            values[51].put(FoodDB.KEY_NAME, "Schezwan Fried Rice");
-            values[52].put(FoodDB.KEY_NAME, "Supreme Pulav");
-
-
-
-
-            values[0].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
-            values[1].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
-            values[2].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
-            values[3].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
-            values[4].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
-            values[5].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
-            values[6].put(FoodDB.KEY_ADDRESS, "paneer_masala");
-            values[7].put(FoodDB.KEY_ADDRESS, "paneer_masala");
-            values[8].put(FoodDB.KEY_ADDRESS, "paneer_masala");
-            values[9].put(FoodDB.KEY_ADDRESS, "paneer_masala");
-            values[10].put(FoodDB.KEY_ADDRESS, "paneer_masala");
-            values[11].put(FoodDB.KEY_ADDRESS, "paneer_masala");
-            values[12].put(FoodDB.KEY_ADDRESS, "paneer_masala");
-            values[13].put(FoodDB.KEY_ADDRESS, "chicken");
-            values[14].put(FoodDB.KEY_ADDRESS, "chicken");
-            values[15].put(FoodDB.KEY_ADDRESS, "chicken");
-            values[16].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
-            values[17].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
-            values[18].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
-            values[19].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
-            values[20].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
-            values[21].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
-            values[22].put(FoodDB.KEY_ADDRESS, "mixveg");
-            values[23].put(FoodDB.KEY_ADDRESS, "mixveg");
-            values[24].put(FoodDB.KEY_ADDRESS, "mixveg");
-            values[25].put(FoodDB.KEY_ADDRESS, "paratha");
-            values[26].put(FoodDB.KEY_ADDRESS, "paratha");
-            values[27].put(FoodDB.KEY_ADDRESS, "tomato");
-            values[28].put(FoodDB.KEY_ADDRESS, "cappsicum");
-            values[29].put(FoodDB.KEY_ADDRESS, "dum_aalu");
-            values[30].put(FoodDB.KEY_ADDRESS, "dum_aalu");
-            values[31].put(FoodDB.KEY_ADDRESS, "egg_curry");
-            values[38].put(FoodDB.KEY_ADDRESS, "pasta");
-            values[39].put(FoodDB.KEY_ADDRESS, "hakka");
-            values[40].put(FoodDB.KEY_ADDRESS, "hakka");
-            values[41].put(FoodDB.KEY_ADDRESS, "pav_bhaji");
-            values[42].put(FoodDB.KEY_ADDRESS, "chat");
-            values[43].put(FoodDB.KEY_ADDRESS, "chat");
-            values[44].put(FoodDB.KEY_ADDRESS, "chole");
-            values[45].put(FoodDB.KEY_ADDRESS, "chole");
-            values[46].put(FoodDB.KEY_ADDRESS, "chole");
-            values[47].put(FoodDB.KEY_ADDRESS, "manchurian");
-            values[48].put(FoodDB.KEY_ADDRESS, "biryani");
-            values[49].put(FoodDB.KEY_ADDRESS, "biryani");
-            values[50].put(FoodDB.KEY_ADDRESS, "biryani");
-            values[51].put(FoodDB.KEY_ADDRESS, "friedrice");
-            values[52].put(FoodDB.KEY_ADDRESS, "friedrice");
+        values[0].put(FoodDB.KEY_NAME, "Paneer Kofta");
+        values[1].put(FoodDB.KEY_NAME, "Paneer Tikka Masala");
+        values[2].put(FoodDB.KEY_NAME, "Paneer Adraki");
+        values[3].put(FoodDB.KEY_NAME, "Paneer Toofani");
+        values[4].put(FoodDB.KEY_NAME, "Paneer Banjara");
+        values[5].put(FoodDB.KEY_NAME, "Palak Paneer");
+        values[6].put(FoodDB.KEY_NAME, "Paneer Masala");
+        values[7].put(FoodDB.KEY_NAME, "Paneer Butter Masala");
+        values[8].put(FoodDB.KEY_NAME, "Paneer Mutter Malai");
+        values[9].put(FoodDB.KEY_NAME, "Paneer Aflatun");
+        values[10].put(FoodDB.KEY_NAME, "Kadai Paneer");
+        values[11].put(FoodDB.KEY_NAME, "Paneer Bhurji");
+        values[12].put(FoodDB.KEY_NAME, "Mutter Paneer");
+        values[13].put(FoodDB.KEY_NAME, "Chicken Adraki");
+        values[14].put(FoodDB.KEY_NAME, "Chicken Hariyali");
+        values[15].put(FoodDB.KEY_NAME, "Butter Chicken");
+        values[16].put(FoodDB.KEY_NAME, "Butter Chicken Boneless");
+        values[17].put(FoodDB.KEY_NAME, "Kadai Chicken");
+        values[18].put(FoodDB.KEY_NAME, "Tandoori Chicken");
+        values[19].put(FoodDB.KEY_NAME, "Chicken Hyderabadi");
+        values[20].put(FoodDB.KEY_NAME, "Chicken Aflatoon");
+        values[21].put(FoodDB.KEY_NAME, "Chicken Handi");
+        values[22].put(FoodDB.KEY_NAME, "Veg Kolhapuri");
+        values[23].put(FoodDB.KEY_NAME, "Veg Kofta");
+        values[24].put(FoodDB.KEY_NAME, "Veg 65");
+        values[25].put(FoodDB.KEY_NAME, "Mix Veg Paratha");
+        values[26].put(FoodDB.KEY_NAME, "Aalu Paratha");
+        values[27].put(FoodDB.KEY_NAME, "Stuffed Tomato");
+        values[28].put(FoodDB.KEY_NAME, "Stuffed Capsicum");
+        values[29].put(FoodDB.KEY_NAME, "Kashmiri Dum Aalu");
+        values[30].put(FoodDB.KEY_NAME, "Bengali Dum Aalu");
+        values[31].put(FoodDB.KEY_NAME, "Egg Cury");
+        values[32].put(FoodDB.KEY_NAME, "French Toast");
+        values[33].put(FoodDB.KEY_NAME, "Omelette");
+        values[34].put(FoodDB.KEY_NAME, "Samosa");
+        values[35].put(FoodDB.KEY_NAME, "Jalebi");
+        values[36].put(FoodDB.KEY_NAME, "Manchurian");
+        values[37].put(FoodDB.KEY_NAME, "Medu Vada");
+        values[38].put(FoodDB.KEY_NAME, "Red Sauce Pasta");
+        values[39].put(FoodDB.KEY_NAME, "Hakka Noodles");
+        values[40].put(FoodDB.KEY_NAME, "Schezwan Noodles");
+        values[41].put(FoodDB.KEY_NAME, "Pav Bhaji");
+        values[42].put(FoodDB.KEY_NAME, "Papdi Chaat");
+        values[43].put(FoodDB.KEY_NAME, "Dahi Chaat");
+        values[44].put(FoodDB.KEY_NAME, "Chole Bhature");
+        values[45].put(FoodDB.KEY_NAME, "Chole Puri");
+        values[46].put(FoodDB.KEY_NAME, "Chhole");
+        values[47].put(FoodDB.KEY_NAME, "Veg Manchurian");
+        values[48].put(FoodDB.KEY_NAME, "Veg Biryani");
+        values[49].put(FoodDB.KEY_NAME, "Hyderabadi Biryani");
+        values[50].put(FoodDB.KEY_NAME, "Chicken Biryani");
+        values[51].put(FoodDB.KEY_NAME, "Schezwan Fried Rice");
+        values[52].put(FoodDB.KEY_NAME, "Supreme Pulav");
 
 
-            // insert records
-            for(i=0;i<53;i++)
-            {
-                getContentResolver().insert(MyContentProvider.CONTENT_URI, values[i]);
+        values[0].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
+        values[1].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
+        values[2].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
+        values[3].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
+        values[4].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
+        values[5].put(FoodDB.KEY_ADDRESS, "paneer_tikka");
+        values[6].put(FoodDB.KEY_ADDRESS, "paneer_masala");
+        values[7].put(FoodDB.KEY_ADDRESS, "paneer_masala");
+        values[8].put(FoodDB.KEY_ADDRESS, "paneer_masala");
+        values[9].put(FoodDB.KEY_ADDRESS, "paneer_masala");
+        values[10].put(FoodDB.KEY_ADDRESS, "paneer_masala");
+        values[11].put(FoodDB.KEY_ADDRESS, "paneer_masala");
+        values[12].put(FoodDB.KEY_ADDRESS, "paneer_masala");
+        values[13].put(FoodDB.KEY_ADDRESS, "chicken");
+        values[14].put(FoodDB.KEY_ADDRESS, "chicken");
+        values[15].put(FoodDB.KEY_ADDRESS, "chicken");
+        values[16].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
+        values[17].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
+        values[18].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
+        values[19].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
+        values[20].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
+        values[21].put(FoodDB.KEY_ADDRESS, "chicken_tikka");
+        values[22].put(FoodDB.KEY_ADDRESS, "mixveg");
+        values[23].put(FoodDB.KEY_ADDRESS, "mixveg");
+        values[24].put(FoodDB.KEY_ADDRESS, "mixveg");
+        values[25].put(FoodDB.KEY_ADDRESS, "paratha");
+        values[26].put(FoodDB.KEY_ADDRESS, "paratha");
+        values[27].put(FoodDB.KEY_ADDRESS, "tomato");
+        values[28].put(FoodDB.KEY_ADDRESS, "cappsicum");
+        values[29].put(FoodDB.KEY_ADDRESS, "dum_aalu");
+        values[30].put(FoodDB.KEY_ADDRESS, "dum_aalu");
+        values[31].put(FoodDB.KEY_ADDRESS, "egg_curry");
+        values[32].put(FoodDB.KEY_ADDRESS, "french_toast");
+        values[33].put(FoodDB.KEY_ADDRESS, "omelette");
+        values[34].put(FoodDB.KEY_ADDRESS, "samosa");
+        values[35].put(FoodDB.KEY_ADDRESS, "jalebi");
+        values[36].put(FoodDB.KEY_ADDRESS, "manchurian");
+        values[37].put(FoodDB.KEY_ADDRESS, "meduwada");
+        values[38].put(FoodDB.KEY_ADDRESS, "pasta");
+        values[39].put(FoodDB.KEY_ADDRESS, "hakka");
+        values[40].put(FoodDB.KEY_ADDRESS, "hakka");
+        values[41].put(FoodDB.KEY_ADDRESS, "pav_bhaji");
+        values[42].put(FoodDB.KEY_ADDRESS, "chat");
+        values[43].put(FoodDB.KEY_ADDRESS, "chat");
+        values[44].put(FoodDB.KEY_ADDRESS, "chole");
+        values[45].put(FoodDB.KEY_ADDRESS, "chole");
+        values[46].put(FoodDB.KEY_ADDRESS, "chole");
+        values[47].put(FoodDB.KEY_ADDRESS, "manchurian");
+        values[48].put(FoodDB.KEY_ADDRESS, "biryani");
+        values[49].put(FoodDB.KEY_ADDRESS, "biryani");
+        values[50].put(FoodDB.KEY_ADDRESS, "biryani");
+        values[51].put(FoodDB.KEY_ADDRESS, "friedrice");
+        values[52].put(FoodDB.KEY_ADDRESS, "friedrice");
 
-            }
+
+        // insert records
+        for (i = 0; i < 53; i++) {
+            Log.d("Value of " + i + " is ", "" + values[i]);
+            getContentResolver().insert(MyContentProvider.CONTENT_URI, values[i]);
 
 
-
+        }
 
 
     }
-
-
 
 
     @Override
@@ -318,7 +313,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-    public int daysToSunday() {
+    private int daysToSunday() {
         Calendar cal = Calendar.getInstance();
         int today = cal.get(Calendar.DAY_OF_WEEK);
         switch (today) {
@@ -341,13 +336,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         return 7;
     }
 
-    public String getWeekDay(int pos) {
+    private String getWeekDay(int pos) {
 
         Calendar cal = Calendar.getInstance();
         int today = cal.get(Calendar.DAY_OF_WEEK);
 
-        switch (pos)
-        {
+        switch (pos) {
             case 0:
                 return "Today";
 
@@ -387,7 +381,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         ImageView food;
 
         Calendar cal, c;
-        TextView tv_date, tv_day, tv_bf, tv_lunch, tv_snack, tv_dinner, tv_share, tv_rsvp, tv_like, tv_snack_title;
+        TextView tv_date, tv_day, tv_bf, tv_lunch, tv_snack, tv_dinner, tv_share, tv_rsvp, tv_like, tv_snack_title, notattend, attend, tv_attend, tv_notattend;
         List<MessMenu> messMenu;
         String date;
         Boolean showAlertNoInternet = false;
@@ -403,6 +397,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         String stringMenuToday;
         Typeface tcondi, tcondl, tdate, tday;
         FloatingActionButton fab;
+        AlertDialog alertDialog;
+
+
+        private ResponseReceiver receiver;
+
 
         public PlaceholderFragment() {
         }
@@ -413,7 +412,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
 
-
             return fragment;
         }
 
@@ -421,11 +419,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+            IntentFilter filter = new IntentFilter(ResponseReceiver.ACTION_RESP);
+            filter.addCategory(Intent.CATEGORY_DEFAULT);
+            receiver = new ResponseReceiver();
+            getActivity().registerReceiver(receiver, filter);
+
 
         }
 
-        public void attendance()
-        {
+        public void attendance() {
 
             // get prompts.xml view
             LayoutInflater li = LayoutInflater.from(getActivity());
@@ -437,63 +439,42 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             // set prompts.xml to alertdialog builder
             alertDialogBuilder.setView(promptsView);
 
-            final TextView notattend = (TextView) promptsView.findViewById(R.id.notattending);
-            final TextView attend = (TextView) promptsView.findViewById(R.id.attending);
-            final TextView tv_attend = (TextView) promptsView.findViewById(R.id.tv_attending);
-            final TextView tv_notattend = (TextView) promptsView
+            notattend = (TextView) promptsView.findViewById(R.id.notattending);
+            attend = (TextView) promptsView.findViewById(R.id.attending);
+            tv_attend = (TextView) promptsView.findViewById(R.id.tv_attending);
+            tv_notattend = (TextView) promptsView
                     .findViewById(R.id.tv_notattending);
 
-            String newAttend = "";
-            String newNotAttend = "";
 
-            for (MessMenu oneMenu : messMenu) {
-                if (oneMenu.getMenuDate().equals(date)) {
-                    oneMenu.setAttendance(oneMenu.getAttendance());
-                    newAttend = "GOING: " + (677 - oneMenu.getAttendance()) + " Students";
-                    newNotAttend = "NOT GOING: " + oneMenu.getAttendance() + " Students";
-                    oneMenu.saveEventually();
+            Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+            msgIntent.putExtra(MenuManipulater.SECTION, section);
+            getActivity().startService(msgIntent);
 
-
-                }
-            }
-            tv_notattend.setText(newNotAttend);
-            tv_attend.setText(newAttend);
 
             // set dialog message
             attend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    String newAttend = "";
-                    String newNotAttend = "";
-                    c = Calendar.getInstance();
+
+                    Calendar c = Calendar.getInstance();
                     c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
-
-
-                    date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
                     if (value.getBoolean("attend" + date, true)) {
                         val.putBoolean("attend" + date, false);
                         val.commit();
 
-
-                        for (MessMenu oneMenu : messMenu) {
-                            if (oneMenu.getMenuDate().equals(date)) {
-                                oneMenu.setAttendance(oneMenu.getAttendance() + 1);
-                                newAttend = "GOING: " + (677 - oneMenu.getAttendance()) + " Students";
-                                newNotAttend = "NOT GOING: " + oneMenu.getAttendance() + " Students";
-                                oneMenu.saveEventually();
-
-
-                            }
-                        }
-
                         tv_rsvp.setText("NOT GOING");
-                        tv_notattend.setText(newNotAttend);
-                        tv_attend.setText(newAttend);
+
+                        Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+                        msgIntent.putExtra(MenuManipulater.SECTION, section);
+                        msgIntent.putExtra(MenuManipulater.GOING, true);
+                        getActivity().startService(msgIntent);
+
 
                     }
-
+                    alertDialog.dismiss();
 
                 }
 
@@ -503,43 +484,35 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             notattend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String newAttend = "";
-                    String newNotAttend = "";
-                    c = Calendar.getInstance();
+
+
+                    Calendar c = Calendar.getInstance();
                     c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
+                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
-
-                    date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
                     if (!value.getBoolean("attend" + date, true)) {
                         val.putBoolean("attend" + date, true);
                         val.commit();
 
-
-                        for (MessMenu oneMenu : messMenu) {
-                            if (oneMenu.getMenuDate().equals(date)) {
-                                oneMenu.setAttendance(oneMenu.getAttendance() - 1);
-                                newAttend = "GOING: " + (677 - oneMenu.getAttendance()) + " Students";
-                                newNotAttend = "NOT GOING: " + oneMenu.getAttendance() + " Students";
-                                oneMenu.saveEventually();
-
-
-                            }
-                        }
-
-
                         tv_rsvp.setText("GOING");
-                        tv_notattend.setText(newNotAttend);
-                        tv_attend.setText(newAttend);
+
+                        Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+                        msgIntent.putExtra(MenuManipulater.SECTION, section);
+                        msgIntent.putExtra(MenuManipulater.NOT_GOING, true);
+                        getActivity().startService(msgIntent);
 
 
                     }
+                    alertDialog.dismiss();
+
                 }
 
             });
 
 
             // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog = alertDialogBuilder.create();
+
 
             // show it
             alertDialog.show();
@@ -548,8 +521,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         @Override
-        public void onResume() {
-            super.onResume();
+        public void onStop() {
+            super.onStop();
+
+
 
         }
 
@@ -582,18 +557,27 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    refresh = true;
-                    getStuff get = new getStuff();
-                    if (!processing)
-                        get.execute();
 
+                    if (!Utilty.isNetworkOnline(getActivity())) {
+                        swipeLayout.setRefreshing(false);
+                        showAlert();
+                    } else {
+                        refresh = true;
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            swipeLayout.setRefreshing(false);
-                        }
-                    }, 6000);
+                        Intent msgIntent = new Intent(getActivity(), MenuGetter.class);
+                        msgIntent.putExtra(MenuGetter.SECTION, section);
+                        msgIntent.putExtra(MenuGetter.REFRESH, refresh);
+                        getActivity().startService(msgIntent);
+
+                        refresh = false;
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeLayout.setRefreshing(false);
+                            }
+                        }, 6000);
+                    }
                 }
             });
 
@@ -654,18 +638,23 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     .getSharedPreferences("value", 0);
             val = value.edit();
 
-            //c.set(Calendar.DAY_OF_WEEK, 7);
-            getStuff get = new getStuff();
-            get.execute();
+
+            Intent msgIntent = new Intent(getActivity(), MenuGetter.class);
+            msgIntent.putExtra(MenuGetter.SECTION, section);
+            msgIntent.putExtra(MenuGetter.REFRESH, refresh);
+            getActivity().startService(msgIntent);
+            refresh = false;
+            //get.execute();
 
             tv_rsvp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (value.getBoolean("synced", false) || isNetworkOnline()) {
-                        attendance();
 
-                    } else
-                        showAlert();
+                    attendance();
+
+                    if (!Utilty.isNetworkOnline(getActivity()))
+                        tv_attend.setHint("You can RSVP offline too. Once your device connects to the internet, your RSVP will be submitted.");
+
                 }
 
             });
@@ -673,7 +662,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (value.getBoolean("synced", false) || isNetworkOnline()) {
+                    if (true) {
 
 
                         if (fab.getColorNormal() == getResources().getColor(R.color.white)) {
@@ -687,22 +676,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                             date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
+                            Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+                            msgIntent.putExtra(MenuManipulater.SECTION, section);
+                            msgIntent.putExtra(MenuManipulater.LIKE, true);
+                            getActivity().startService(msgIntent);
 
                             val.putBoolean(date, true);
                             val.commit();
 
 
-                            for (MessMenu oneMenu : messMenu) {
-                                if (oneMenu.getMenuDate().equals(date)) {
-                                    oneMenu.setLikes(oneMenu.getLikes() + 1);
-                                    like = oneMenu.getLikes();
-                                    oneMenu.saveEventually();
-
-
-                                }
-                            }
-
-                            tv_like.setText("" + like + " likes");
+                            tv_like.setText("updating...");
 
 
                         } else {
@@ -717,21 +700,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             val.putBoolean(date, false);
                             val.commit();
 
-                            for (MessMenu oneMenu : messMenu) {
-                                if (oneMenu.getMenuDate().equals(date)) {
-                                    oneMenu.setLikes(oneMenu.getLikes() - 1);
-                                    like = oneMenu.getLikes();
-                                    oneMenu.saveEventually();
+                            Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+                            msgIntent.putExtra(MenuManipulater.SECTION, section);
+                            msgIntent.putExtra(MenuManipulater.UNLIKE, true);
+                            getActivity().startService(msgIntent);
 
 
-                                }
-                            }
-
-                            tv_like.setText("" + like + " likes");
+                            tv_like.setText("updating...");
 
                         }
-                    } else
-                        showAlert();
+                    }
                 }
 
             });
@@ -828,29 +806,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     })
 
                     .show();
-            showAlertNoInternet = false;
 
-        }
-
-
-        public boolean isNetworkOnline() {
-            boolean status = false;
-            try {
-
-                ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getNetworkInfo(0);
-                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    status = true;
-                } else {
-                    netInfo = cm.getNetworkInfo(1);
-                    if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED)
-                        status = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-            return status;
 
         }
 
@@ -879,217 +835,166 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             return "Today";
         }
 
-        @Override
-        public void onPause() {
-            super.onPause();
+        public class ResponseReceiver extends BroadcastReceiver {
+            public static final String ACTION_RESP =
+                    "com.aliasgarlabs.MENU_PROCESSED";
 
-        }
+            public static final String ACTION_RESP_MANIPULATED =
+                    "com.aliasgarlabs.MENU_MANIPULATED";
 
-        public class getStuff extends AsyncTask<Void, Void, String> {
+            public static final String ACTION_TYPE =
+                    "action_type";
 
 
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onReceive(Context context, Intent intent) {
+                //do the UI work here
+                Log.d("Action", "" + intent.getStringExtra(ACTION_TYPE));
+
+                if (intent.getStringExtra(ACTION_TYPE).equals("M")) {
 
 
-            }
+                    Calendar c = Calendar.getInstance();
+                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
+                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
 
-            @Override
-            protected void onPostExecute(String menuToday) {
-                super.onPostExecute(menuToday);
-                if (showAlertNoInternet) {
-                    showAlert();
-
-                }
-
-
-            }
-
-            @Override
-            protected String doInBackground(Void... params) {
-                c = Calendar.getInstance();
-                c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
+                    if (date.equals(intent.getStringExtra(MenuManipulater.MENU_DATE))) {
+                        if (intent.getBooleanExtra(MenuManipulater.UPDATE_ALL, false)) {
+                            tv_notattend.setText(intent.getStringExtra(MenuManipulater.NOT_GOING_TEXT));
+                            tv_attend.setText(intent.getStringExtra(MenuManipulater.GOING_TEXT));
+                        }
+                        tv_like.setText(intent.getStringExtra(MenuManipulater.LIKE_TEXT));
 
 
-                date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
-                ParseQuery<MessMenu> query = ParseQuery.getQuery(MessMenu.class);
-                Boolean goingOnline = false;
-                Log.d("Validation", "" + value.getBoolean("synced", false) + " " + isNetworkOnline() + " " + refresh);
-
-                if (!((value.getBoolean("synced", false) && isNetworkOnline() || refresh)) && (value.getBoolean("synced", false))) {
-                    Log.d("Going Local", "" + true);
-                    query.whereEqualTo("date", date);
-                    query.fromLocalDatastore();
-
-                } else {
-                    Log.d("Going Local", "" + false);
-                    goingOnline = true;
-
-                }
-
-                Log.d("Getting Before Parse", "" + true);
-
-                if (!isNetworkOnline() && goingOnline) {
-                    if (refresh) {
-                        showAlertNoInternet = true;
-                        swipeLayout.setRefreshing(false);
-                        refresh = false;
                     }
 
 
-                    if ((value.getBoolean("synced", false))) {
-                        query.whereEqualTo("date", date);
-                        query.fromLocalDatastore();
-                    }
-                }
+                } else if (intent.getStringExtra(ACTION_TYPE).equals("G")) {
+                    swipeLayout.setRefreshing(false);
+                    Calendar c = Calendar.getInstance();
+                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
+                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+                    if (date.equals(intent.getStringExtra(MenuGetter.MENU_DATE))) {
+                        final String breakfast = intent.getStringExtra(MenuGetter.BREAKFAST);
+                        String lunch = intent.getStringExtra(MenuGetter.LUNCH);
+                        String snacks = intent.getStringExtra(MenuGetter.SNACKS);
+                        final String dinner = intent.getStringExtra(MenuGetter.DINNER);
+                        int likes = intent.getIntExtra(MenuGetter.LIKES, 0);
+                        Boolean liked = intent.getBooleanExtra(MenuGetter.LIKED, false);
 
-                query.findInBackground(new FindCallback<MessMenu>() {
-                    @Override
-                    public void done(List<MessMenu> task, ParseException error) {
-                        ParseObject.pinAllInBackground(task);
+                        tv_bf.setText(breakfast);
+                        tv_lunch.setText(lunch);
+                        tv_dinner.setText(dinner);
 
-                        val.putBoolean("synced", true);
-                        val.commit();
+                        tv_like.setText(likes + " likes");
+                        tv_like.setVisibility(View.GONE);
 
-                        swipeLayout.setRefreshing(false);
+                        tv_like.setVisibility(View.VISIBLE);
 
-                        if (task != null)
-                            for (final MessMenu mess : task) {
-                                messMenu = task;
-                                Log.d("size: ", "" + task.size());
-                                Log.d("date back section", "" + section);
-                                c = Calendar.getInstance();
-                                date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH)) + " - " + c.get(Calendar.YEAR);
-                                Log.d("date back log 1: " + mess.getMenuDate(), date);
-                                c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
-                                date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH)) + " - " + c.get(Calendar.YEAR);
-                                Log.d("date back log 2: " + mess.getMenuDate(), date);
+                        if (!snacks.equals("")) {
+                            tv_snack.setText(snacks);
 
-                                date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
-                                Log.d("date back log 3: " + mess.getMenuDate(), date);
+                        } else {
+                            tv_snack.setVisibility(View.GONE);
+                            tv_snack_title.setVisibility(View.GONE);
+                        }
 
-                                if (mess.getMenuDate().equals(date)) {
-
-                                    tv_bf.setText(mess.getBreakfast());
-                                    tv_lunch.setText(mess.getLunch());
-                                    if (!mess.getSnack().equals(""))
-                                        tv_snack.setText(mess.getSnack());
-                                    else {
-                                        tv_snack.setVisibility(View.GONE);
-                                        tv_snack_title.setVisibility(View.GONE);
-                                    }
-                                    tv_dinner.setText(mess.getDinner());
-                                    tv_like.setText(mess.getLikes() + " likes");
-
-                                    if (value.getBoolean(date, false)) {
-                                        fab.setColorNormal(getResources().getColor(R.color.accent));
-                                        fab.setImageResource(R.drawable.ic_action_favorite);
-                                    } else {
-                                        fab.setColorNormal(getResources().getColor(R.color.white));
-                                        fab.setImageResource(R.drawable.ic_action_favorite_green);
-                                    }
+                        if (liked) {
+                            fab.setColorNormal(getResources().getColor(R.color.accent));
+                            fab.setImageResource(R.drawable.ic_action_favorite);
+                        } else {
+                            fab.setColorNormal(getResources().getColor(R.color.white));
+                            fab.setImageResource(R.drawable.ic_action_favorite_green);
+                        }
 
 
-                                    stringMenuToday = mess.getDinner();
+                        final String[] selectArgs = getHighlightMenu(dinner);
+                        Log.d("String Select Arg ", "" + selectArgs[0]);
+                        getLoaderManager().restartLoader(0, null, new android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>() {
+                            @Override
+                            public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                                String[] projection = {
+                                        FoodDB.KEY_ID,
+                                        FoodDB.KEY_NAME,
+                                        FoodDB.KEY_ADDRESS};
+                                android.support.v4.content.CursorLoader cursorLoader = new android.support.v4.content.CursorLoader(getActivity(),
+                                        MyContentProvider.CONTENT_URI, projection, FoodDB.KEY_NAME + "=? ", selectArgs, null);
 
-                                    final String[] selectArgs = getHighlightMenu(stringMenuToday);
-                                    Log.d("String Select Arg ", "" + selectArgs[0]);
-                                    getLoaderManager().restartLoader(0, null, new android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>() {
-                                        @Override
-                                        public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                                            String[] projection = {
-                                                    FoodDB.KEY_ID,
-                                                    FoodDB.KEY_NAME,
-                                                    FoodDB.KEY_ADDRESS};
-                                            android.support.v4.content.CursorLoader cursorLoader = new android.support.v4.content.CursorLoader(getActivity(),
-                                                    MyContentProvider.CONTENT_URI, projection, FoodDB.KEY_NAME + "=? ", selectArgs, null);
-
-                                            return cursorLoader;
-                                        }
-
-                                        @Override
-                                        public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor cursor) {
-                                            cursor.moveToFirst();
-                                            StringBuilder res = new StringBuilder();
-                                            while (!cursor.isAfterLast()) {
-                                                res.append(cursor.getString(cursor.getColumnIndex(FoodDB.KEY_ADDRESS)));
-                                                cursor.moveToNext();
-                                            }
-
-                                            int resId = getResources().getIdentifier(res.toString(), "drawable", getActivity().getPackageName());
-                                            food.setAnimation(animation);
-
-                                            food.setImageResource(resId);
-
-
-                                            if (food.getDrawable() == null) {
-
-                                                if (mess.getDinner().toLowerCase().contains("biryani"))
-                                                    food.setImageResource(R.drawable.biryani);
-                                                else if (mess.getDinner().toLowerCase().contains("chicken"))
-                                                    food.setImageResource(R.drawable.chicken_tikka);
-                                                else if (mess.getDinner().toLowerCase().contains("fried rice"))
-                                                    food.setImageResource(R.drawable.friedrice);
-                                                else if (mess.getDinner().toLowerCase().contains("hakka"))
-                                                    food.setImageResource(R.drawable.hakka);
-                                                else if (mess.getDinner().toLowerCase().contains("noodles"))
-                                                    food.setImageResource(R.drawable.hakka);
-                                                else if (mess.getDinner().toLowerCase().contains("mendu"))
-                                                    food.setImageResource(R.drawable.meduwada);
-                                                else if (mess.getDinner().toLowerCase().contains("paneer"))
-                                                    food.setImageResource(R.drawable.paneer);
-                                                else if (mess.getDinner().toLowerCase().contains("paratha"))
-                                                    food.setImageResource(R.drawable.paratha);
-                                                else if (mess.getDinner().toLowerCase().contains("chole"))
-                                                    food.setImageResource(R.drawable.chole);
-                                                else if (mess.getDinner().toLowerCase().contains("egg curry"))
-                                                    food.setImageResource(R.drawable.egg_curry);
-                                                else if (mess.getDinner().toLowerCase().contains("gulab"))
-                                                    food.setImageResource(R.drawable.gulab_jamun);
-                                                else if (mess.getDinner().toLowerCase().contains("pav bhaji"))
-                                                    food.setImageResource(R.drawable.pav_bhaji);
-                                                else if (mess.getBreakfast().toLowerCase().contains("sabudana"))
-                                                    food.setImageResource(R.drawable.sabudana_khichdi);
-                                                else if (mess.getBreakfast().toLowerCase().contains("egg burji"))
-                                                    food.setImageResource(R.drawable.egg_burji);
-                                                else if (mess.getBreakfast().toLowerCase().contains("mendu"))
-                                                    food.setImageResource(R.drawable.meduwada);
-                                                else if (mess.getBreakfast().toLowerCase().contains("paratha"))
-                                                    food.setImageResource(R.drawable.paratha);
-                                                else if (mess.getBreakfast().toLowerCase().contains("poha"))
-                                                    food.setImageResource(R.drawable.poha);
-                                                else if (mess.getBreakfast().toLowerCase().contains("uttapam"))
-                                                    food.setImageResource(R.drawable.uttapam);
-                                                else if (mess.getBreakfast().toLowerCase().contains("french"))
-                                                    food.setImageResource(R.drawable.french_toast);
-                                                else if (mess.getBreakfast().toLowerCase().contains("omlette"))
-                                                    food.setImageResource(R.drawable.omlette);
-                                                else if (mess.getBreakfast().toLowerCase().contains("samosa"))
-                                                    food.setImageResource(R.drawable.samosa);
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
-
-                                        }
-                                    });
-
-                                }
+                                return cursorLoader;
                             }
+
+                            @Override
+                            public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor cursor) {
+                                cursor.moveToFirst();
+                                StringBuilder res = new StringBuilder();
+                                while (!cursor.isAfterLast()) {
+                                    res.append(cursor.getString(cursor.getColumnIndex(FoodDB.KEY_ADDRESS)));
+                                    cursor.moveToNext();
+                                }
+
+                                int resId = getResources().getIdentifier(res.toString(), "drawable", getActivity().getPackageName());
+                                food.setAnimation(animation);
+
+                                food.setImageResource(resId);
+                                if (food.getDrawable() == null) {
+
+                                    if (dinner.toLowerCase().contains("biryani"))
+                                        food.setImageResource(R.drawable.biryani);
+                                    else if (dinner.toLowerCase().contains("chicken"))
+                                        food.setImageResource(R.drawable.chicken_tikka);
+                                    else if (dinner.toLowerCase().contains("fried rice"))
+                                        food.setImageResource(R.drawable.friedrice);
+                                    else if (dinner.toLowerCase().contains("hakka"))
+                                        food.setImageResource(R.drawable.hakka);
+                                    else if (dinner.toLowerCase().contains("mendu"))
+                                        food.setImageResource(R.drawable.meduwada);
+                                    else if (dinner.toLowerCase().contains("paneer"))
+                                        food.setImageResource(R.drawable.paneer);
+                                    else if (dinner.toLowerCase().contains("paratha"))
+                                        food.setImageResource(R.drawable.paratha);
+                                    else if (dinner.toLowerCase().contains("chole"))
+                                        food.setImageResource(R.drawable.chole);
+                                    else if (dinner.toLowerCase().contains("egg curry"))
+                                        food.setImageResource(R.drawable.egg_curry);
+                                    else if (dinner.toLowerCase().contains("gulab"))
+                                        food.setImageResource(R.drawable.gulab_jamun);
+                                    else if (dinner.toLowerCase().contains("pav bhaji"))
+                                        food.setImageResource(R.drawable.pav_bhaji);
+                                    else if (breakfast.toLowerCase().contains("sabudana"))
+                                        food.setImageResource(R.drawable.sabudana_khichdi);
+                                    else if (breakfast.toLowerCase().contains("egg burji"))
+                                        food.setImageResource(R.drawable.egg_burji);
+                                    else if (breakfast.toLowerCase().contains("mendu"))
+                                        food.setImageResource(R.drawable.meduwada);
+                                    else if (breakfast.toLowerCase().contains("paratha"))
+                                        food.setImageResource(R.drawable.paratha);
+                                    else if (breakfast.toLowerCase().contains("poha"))
+                                        food.setImageResource(R.drawable.poha);
+                                    else if (breakfast.toLowerCase().contains("uttapam"))
+                                        food.setImageResource(R.drawable.uttapam);
+                                    else if (breakfast.toLowerCase().contains("french"))
+                                        food.setImageResource(R.drawable.french_toast);
+                                    else if (breakfast.toLowerCase().contains("omlette"))
+                                        food.setImageResource(R.drawable.omlette);
+                                    else if (breakfast.toLowerCase().contains("samosa"))
+                                        food.setImageResource(R.drawable.samosa);
+                                }
+
+                            }
+
+                            @Override
+                            public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
+
+                            }
+                        });
                     }
-                });
 
-                Log.d("String Menu ", "" + stringMenuToday);
-                return stringMenuToday;
+                }
             }
-
-
         }
-    }
 
+
+    }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

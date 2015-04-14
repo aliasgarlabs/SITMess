@@ -8,8 +8,8 @@ android {
         applicationId "com.aliasgarlabs.sitmess"
         minSdkVersion 11
         targetSdkVersion 21
-        versionCode 5
-        versionName "1.131"
+        versionCode 6
+        versionName "1.14"
     }
     buildTypes {
         release {
