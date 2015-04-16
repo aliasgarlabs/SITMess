@@ -58,7 +58,7 @@ public class MenuGetter extends IntentService {
 
         ParseQuery<MessMenu> query = ParseQuery.getQuery(MessMenu.class);
         Boolean goingOnline = true;
-        Log.d("Validation", "" + " " + Utilty.isNetworkOnline(getApplicationContext()) + " " + refresh + " " + value.getInt("nextUpdate", -1) + " " + c.get(Calendar.WEEK_OF_YEAR));
+        Log.d("Validation", "" + " " + Utility.isNetworkOnline(getApplicationContext()) + " " + refresh + " " + value.getInt("nextUpdate", -1) + " " + c.get(Calendar.WEEK_OF_YEAR));
 
         if (!refresh && value.getInt("nextUpdate", -1) > c.get(Calendar.WEEK_OF_YEAR)) {
             Log.d("Going Local", "" + true);
@@ -77,7 +77,7 @@ public class MenuGetter extends IntentService {
 
         }
 
-        if ((Utilty.isNetworkOnline(getApplicationContext()) && goingOnline) || !(goingOnline && !Utilty.isNetworkOnline(getApplicationContext()))) {
+        if ((Utility.isNetworkOnline(getApplicationContext()) && goingOnline) || !(goingOnline && !Utility.isNetworkOnline(getApplicationContext()))) {
 
 
             goingOnline = false;

@@ -171,13 +171,17 @@ public class About extends ActionBarActivity implements View.OnClickListener {
 
     private void email() throws PackageManager.NameNotFoundException {
 
-        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-        sendIntent.setType("plain/text");
-        sendIntent.setData(Uri.parse("aliasgarlabs@gmail.com"));
-        sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"aliasgarlabs@gmail.com"});
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "SIT Mess App " + getPackageManager().getPackageInfo(this.getPackageName(), 0).versionCode);
 
-        startActivity(sendIntent);
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"aliasgarlabs@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "SIT Mess App " + getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName);
+
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

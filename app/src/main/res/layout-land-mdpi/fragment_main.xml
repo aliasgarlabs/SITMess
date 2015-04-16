@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="500dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -22,8 +21,9 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="400dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:orientation="vertical">
 
 
@@ -43,7 +43,7 @@
                             android:id="@+id/image"
                             android:layout_width="fill_parent"
                             android:layout_height="200dp"
-                            android:background="@drawable/paneer_masala"
+                            android:background="@drawable/default_food"
                             android:scaleType="fitXY" />
 
                         <View
@@ -99,8 +99,8 @@
                             android:layout_toLeftOf="@+id/fab"
                             android:paddingBottom="10dp"
                             android:text="0 likes"
-
                             android:textColor="@color/white"
+                            android:textColorHint="@color/white"
                             android:textSize="15dp"
 
                             android:textStyle="italic" />

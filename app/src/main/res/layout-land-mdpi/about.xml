@@ -4,16 +4,16 @@
     android:id="@+id/layout_root"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
 
     android:layout_margin="10dp">
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
@@ -23,14 +23,15 @@
                 android:src="@drawable/ic_launcher_web" />
 
             <TextView
+                android:id="@+id/aboutVersion"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="SYMBI MESS 1.0"
                 android:textSize="25dp" />
 
             <TextView
+                android:id="@+id/developer"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -44,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 card_view:elevation="15dp">
-
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
 
                         <TextView
                             android:id="@+id/tv_email"
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:layout_toRightOf="@+id/logo_email"
@@ -93,7 +93,7 @@
 
                         <TextView
                             android:id="@+id/tv_github"
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
 
                             android:layout_below="@id/logo_email"
@@ -116,7 +116,7 @@
 
                         <TextView
                             android:id="@+id/tv_twitter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
 
                             android:layout_below="@id/logo_github"
@@ -126,7 +126,6 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
 
                             />
-
                         <ImageView
                             android:id="@+id/logo_play"
                             android:layout_width="48dp"
@@ -138,7 +137,7 @@
 
                         <TextView
                             android:id="@+id/tv_play"
-                            android:layout_width="wrap_content"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
 
                             android:layout_below="@id/logo_twitter"
@@ -163,7 +162,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 card_view:elevation="15dp">
-
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

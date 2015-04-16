@@ -15,6 +15,7 @@
         android:theme="@style/Theme.MyTheme">
         <activity
             android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
             android:theme="@style/ForecastTheme">
             <intent-filter>
@@ -38,11 +39,13 @@
 
         <activity
             android:name="com.aliasgarlabs.sitmess.Settings"
+            android:configChanges="keyboardHidden|orientation"
             android:label="Settings"
             android:parentActivityName="com.aliasgarlabs.sitmess.MainActivity"></activity>
 
         <activity
             android:name="com.aliasgarlabs.sitmess.About"
+            android:configChanges="keyboardHidden|orientation"
             android:label="About"
             android:parentActivityName="com.aliasgarlabs.sitmess.MainActivity"></activity>
 

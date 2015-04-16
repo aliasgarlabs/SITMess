@@ -398,7 +398,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         Typeface tcondi, tcondl, tdate, tday;
         FloatingActionButton fab;
         AlertDialog alertDialog;
-
+        Boolean isRegistered = false;
 
         private ResponseReceiver receiver;
 
@@ -421,10 +421,23 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             IntentFilter filter = new IntentFilter(ResponseReceiver.ACTION_RESP);
             filter.addCategory(Intent.CATEGORY_DEFAULT);
+            if (!isRegistered) {
             receiver = new ResponseReceiver();
-            getActivity().registerReceiver(receiver, filter);
+
+                getActivity().registerReceiver(receiver, filter);
+                isRegistered = true;
+            }
+
+        }
 
 
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            if (isRegistered) {
+                isRegistered = false;
+                getActivity().unregisterReceiver(receiver);
+            }
         }
 
         public void attendance() {
@@ -475,7 +488,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                     }
                     alertDialog.dismiss();
-
+                    Toast.makeText(getActivity(), "Thank You for your RSVP", Toast.LENGTH_LONG).show();
                 }
 
             });
@@ -503,6 +516,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
                     }
+
+                    Toast.makeText(getActivity(), "Thank You for your RSVP", Toast.LENGTH_LONG).show();
                     alertDialog.dismiss();
 
                 }
@@ -520,13 +535,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         }
 
-        @Override
-        public void onStop() {
-            super.onStop();
-
-
-
-        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -558,7 +566,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 @Override
                 public void onRefresh() {
 
-                    if (!Utilty.isNetworkOnline(getActivity())) {
+                    if (!Utility.isNetworkOnline(getActivity())) {
                         swipeLayout.setRefreshing(false);
                         showAlert();
                     } else {
@@ -569,7 +577,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         msgIntent.putExtra(MenuGetter.REFRESH, refresh);
                         getActivity().startService(msgIntent);
 
-                        refresh = false;
 
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -643,7 +650,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             msgIntent.putExtra(MenuGetter.SECTION, section);
             msgIntent.putExtra(MenuGetter.REFRESH, refresh);
             getActivity().startService(msgIntent);
-            refresh = false;
+
             //get.execute();
 
             tv_rsvp.setOnClickListener(new View.OnClickListener() {
@@ -652,7 +659,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                     attendance();
 
-                    if (!Utilty.isNetworkOnline(getActivity()))
+                    if (!Utility.isNetworkOnline(getActivity()))
                         tv_attend.setHint("You can RSVP offline too. Once your device connects to the internet, your RSVP will be submitted.");
 
                 }
@@ -684,8 +691,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             val.putBoolean(date, true);
                             val.commit();
 
-
-                            tv_like.setText("updating...");
+                            if (Utility.isNetworkOnline(getActivity()))
+                                tv_like.setText("updating...");
+                            else
+                                tv_like.setText("liked");
 
 
                         } else {
@@ -706,7 +715,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             getActivity().startService(msgIntent);
 
 
-                            tv_like.setText("updating...");
+                            if (Utility.isNetworkOnline(getActivity()))
+                                tv_like.setText("updating...");
+                            else
+                                tv_like.setText("liked");
 
                         }
                     }
@@ -870,7 +882,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
                 } else if (intent.getStringExtra(ACTION_TYPE).equals("G")) {
+                    if (refresh)
                     swipeLayout.setRefreshing(false);
+                    refresh = false;
                     Calendar c = Calendar.getInstance();
                     c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
                     String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);

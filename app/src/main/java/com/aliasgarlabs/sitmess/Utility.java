@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 /**
  * Created by Aliasgar Murtaza on 14-Apr-15.
  */
-public class Utilty {
+public class Utility {
 
     public static boolean isNetworkOnline(Context context) {
         boolean status = false;
