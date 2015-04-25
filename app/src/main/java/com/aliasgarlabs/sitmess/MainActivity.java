@@ -55,11 +55,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     SharedPreferences.Editor val;
     ViewPager mViewPager;
 
+    int page_section = 0;
+
     @Override
     protected void onResume() {
         super.onResume();
 
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,68 +70,72 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         setContentView(R.layout.activity_main);
 
+        // if(savedInstanceState == null)
+        {
+        /* First launch, add fragments */
+            final ActionBar actionBar = getSupportActionBar();
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Object>() {
+                @Override
+                public Loader<Object> onCreateLoader(int id, Bundle args) {
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Object>() {
-            @Override
-            public Loader<Object> onCreateLoader(int id, Bundle args) {
+                    return null;
+                }
 
-                return null;
+                @Override
+                public void onLoadFinished(Loader<Object> loader, Object data) {
+
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Object> loader) {
+
+                }
+            });
+
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mSectionsPagerAdapter.notifyDataSetChanged();
+            Intent intent = new Intent(this, AlarmService.class);
+            startService(intent);
+
+
+            mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    actionBar.setSelectedNavigationItem(position);
+                }
+            });
+
+            for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+
+                actionBar.addTab(
+                        actionBar.newTab()
+                                .setText(mSectionsPagerAdapter.getPageTitle(i))
+                                .setTabListener(this));
             }
 
-            @Override
-            public void onLoadFinished(Loader<Object> loader, Object data) {
 
+            Log.d("New lunch",
+                    "true");
+
+
+            value = getSharedPreferences("value", 0);
+            val = value.edit();
+
+            //Check for 1st launch
+            if (value.getBoolean("firstRun", true)) {
+
+                populateFoodDB();
+
+                val.putBoolean("firstRun", false);
+                val.commit();
             }
 
-            @Override
-            public void onLoaderReset(Loader<Object> loader) {
 
-            }
-        });
-
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mSectionsPagerAdapter.notifyDataSetChanged();
-        Intent intent = new Intent(this, AlarmService.class);
-        startService(intent);
-
-
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
-
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
         }
-
-
-        Log.d("New lunch",
-                "true");
-
-
-        value = getSharedPreferences("value", 0);
-        val = value.edit();
-
-        //Check for 1st launch
-        if (value.getBoolean("firstRun", true)) {
-
-            populateFoodDB();
-
-            val.putBoolean("firstRun", false);
-            val.commit();
-        }
-
 
     }
 
@@ -392,6 +399,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         SharedPreferences value;
         SharedPreferences.Editor val;
         Animation fadeIn;
+        View rootView;
         AnimationSet animation;
         SwipeRefreshLayout swipeLayout;
         String stringMenuToday;
@@ -406,6 +414,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public PlaceholderFragment() {
         }
 
+
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -413,6 +422,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             fragment.setArguments(args);
 
             return fragment;
+        }
+
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            //
+        }
+
+        @Override
+        public void onPause() {
+            // Save ListView state @ onPause
+            Log.d("TAG", "saving listview state @ onPause");
+
+
+            super.onPause();
         }
 
         @Override
@@ -434,112 +458,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         @Override
         public void onDestroy() {
             super.onDestroy();
+            setRetainInstance(true);
             if (isRegistered) {
                 isRegistered = false;
                 getActivity().unregisterReceiver(receiver);
             }
         }
 
-        public void attendance() {
-
-            // get prompts.xml view
-            LayoutInflater li = LayoutInflater.from(getActivity());
-            View promptsView = li.inflate(R.layout.new_item_attend, null);
-
-            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    getActivity());
-
-            // set prompts.xml to alertdialog builder
-            alertDialogBuilder.setView(promptsView);
-
-            notattend = (TextView) promptsView.findViewById(R.id.notattending);
-            attend = (TextView) promptsView.findViewById(R.id.attending);
-            tv_attend = (TextView) promptsView.findViewById(R.id.tv_attending);
-            tv_notattend = (TextView) promptsView
-                    .findViewById(R.id.tv_notattending);
-
-
-            Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
-            msgIntent.putExtra(MenuManipulater.SECTION, section);
-            getActivity().startService(msgIntent);
-
-
-            // set dialog message
-            attend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    Calendar c = Calendar.getInstance();
-                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
-                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
-
-                    if (value.getBoolean("attend" + date, true)) {
-                        val.putBoolean("attend" + date, false);
-                        val.commit();
-
-                        tv_rsvp.setText("NOT GOING");
-
-                        Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
-                        msgIntent.putExtra(MenuManipulater.SECTION, section);
-                        msgIntent.putExtra(MenuManipulater.GOING, true);
-                        getActivity().startService(msgIntent);
-
-
-                    }
-                    alertDialog.dismiss();
-                    Toast.makeText(getActivity(), "Thank You for your RSVP", Toast.LENGTH_LONG).show();
-                }
-
-            });
-
-
-            notattend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    Calendar c = Calendar.getInstance();
-                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
-                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
-
-                    if (!value.getBoolean("attend" + date, true)) {
-                        val.putBoolean("attend" + date, true);
-                        val.commit();
-
-                        tv_rsvp.setText("GOING");
-
-                        Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
-                        msgIntent.putExtra(MenuManipulater.SECTION, section);
-                        msgIntent.putExtra(MenuManipulater.NOT_GOING, true);
-                        getActivity().startService(msgIntent);
-
-
-                    }
-
-                    Toast.makeText(getActivity(), "Thank You for your RSVP", Toast.LENGTH_LONG).show();
-                    alertDialog.dismiss();
-
-                }
-
-            });
-
-
-            // create alert dialog
-            alertDialog = alertDialogBuilder.create();
-
-
-            // show it
-            alertDialog.show();
-
-
-        }
-
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+            getRetainInstance();
 
             query = ParseQuery.getQuery(MessMenu.class);
 
@@ -786,6 +718,104 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             return rootView;
         }
 
+        public void attendance() {
+
+            // get prompts.xml view
+            LayoutInflater li = LayoutInflater.from(getActivity());
+            View promptsView = li.inflate(R.layout.new_item_attend, null);
+
+            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    getActivity());
+
+            // set prompts.xml to alertdialog builder
+            alertDialogBuilder.setView(promptsView);
+
+            notattend = (TextView) promptsView.findViewById(R.id.notattending);
+            attend = (TextView) promptsView.findViewById(R.id.attending);
+            tv_attend = (TextView) promptsView.findViewById(R.id.tv_attending);
+            tv_notattend = (TextView) promptsView
+                    .findViewById(R.id.tv_notattending);
+
+
+            Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+            msgIntent.putExtra(MenuManipulater.SECTION, section);
+            getActivity().startService(msgIntent);
+
+
+            // set dialog message
+            attend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Calendar c = Calendar.getInstance();
+                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
+                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+
+                    if (value.getBoolean("attend" + date, true)) {
+                        val.putBoolean("attend" + date, false);
+                        val.commit();
+
+                        tv_rsvp.setText("NOT GOING");
+
+                        Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+                        msgIntent.putExtra(MenuManipulater.SECTION, section);
+                        msgIntent.putExtra(MenuManipulater.GOING, true);
+                        getActivity().startService(msgIntent);
+
+
+                    }
+                    alertDialog.dismiss();
+                    Toast.makeText(getActivity(), "Thank You for your RSVP", Toast.LENGTH_LONG).show();
+                }
+
+            });
+
+
+            notattend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Calendar c = Calendar.getInstance();
+                    c.set(Calendar.DAY_OF_MONTH, (c.get(Calendar.DAY_OF_MONTH) + (section - 1)));
+                    String date = "" + (c.get(Calendar.DAY_OF_MONTH)) + " - " + (c.get(Calendar.MONTH) + 1) + " - " + c.get(Calendar.YEAR);
+
+                    if (!value.getBoolean("attend" + date, true)) {
+                        val.putBoolean("attend" + date, true);
+                        val.commit();
+
+                        tv_rsvp.setText("GOING");
+
+                        Intent msgIntent = new Intent(getActivity(), MenuManipulater.class);
+                        msgIntent.putExtra(MenuManipulater.SECTION, section);
+                        msgIntent.putExtra(MenuManipulater.NOT_GOING, true);
+                        getActivity().startService(msgIntent);
+
+
+                    }
+
+                    Toast.makeText(getActivity(), "Thank You for your RSVP", Toast.LENGTH_LONG).show();
+                    alertDialog.dismiss();
+
+                }
+
+            });
+
+
+            // create alert dialog
+            alertDialog = alertDialogBuilder.create();
+
+
+            // show it
+            alertDialog.show();
+
+
+        }
+
+
+
+
         public String[] getHighlightMenu(String menuToday) {
             ArrayList<String> arrayArgs = new ArrayList<String>();
             menuToday += " ";
@@ -1018,13 +1048,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public Fragment getItem(int position) {
-
+            page_section = position;
             return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-
 
             return daysToSunday();
         }

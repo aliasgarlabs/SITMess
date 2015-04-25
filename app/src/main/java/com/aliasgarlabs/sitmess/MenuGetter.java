@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class MenuGetter extends IntentService {
 
-    public static final String SECTION = "section";
+    public static final String SECTION = "page_section";
     public static final String REFRESH = "refresh";
 
     public static final String BREAKFAST = "breakfast";
@@ -94,7 +94,7 @@ public class MenuGetter extends IntentService {
                         for (final MessMenu mess : task) {
 
                             Log.d("size: ", "" + task.size());
-                            Log.d("date back section", "" + section);
+                            Log.d("date back page_section", "" + section);
                             Log.d("date", "" + date);
 
 
